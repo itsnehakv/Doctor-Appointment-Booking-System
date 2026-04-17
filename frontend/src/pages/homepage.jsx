@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import FeaturesSection from "../components/feature-section";
 import Testimonials from "../components/review";
 import Footer from "../components/footer";
+import PartnersMarquee from "../components/partners";
 
 function HomePage() {
   return (
@@ -38,6 +39,7 @@ function HomePage() {
       <div className="relative z-10">
         <Navbar />
         <Hero />
+        <PartnersMarquee />
         <FeaturesSection />
         <Testimonials />
         <Footer />
