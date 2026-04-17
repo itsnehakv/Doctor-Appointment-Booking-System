@@ -64,13 +64,10 @@ const Hero = () => {
         </div>
 
         {/* RIGHT IMAGE */}
-<div className="w-full max-w-md md:max-w-lg mx-auto">
-  <img
-    src={img}
-    alt="Doctor"
-    className="w-full h-auto rounded-xl shadow-md"
-  />
+<div className="max-w-[450px] mx-auto">
+  <img src={img} className="w-full rounded-xl shadow-md" alt="Healthcare" />
 </div>
+
 </div>
     </section>
   );
