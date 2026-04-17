@@ -8,7 +8,7 @@ function Logo() {
         height="34"
         viewBox="0 0 24 24"
         fill="none"
-        className="text-blue-500"
+        className="text-emerald-800"
       >
         <path
           d="M3 12h4l2-5 4 10 2-5h4"
@@ -21,7 +21,7 @@ function Logo() {
 
       {/* Brand */}
       <h1 className="text-white font-semibold text-xl tracking-tight">
-        Instant<span className="text-blue-500">MD</span>
+        Instant<span className="text-emerald-800">MD</span>
       </h1>
 
     </div>
