@@ -4,8 +4,10 @@ const Hero = () => {
   return (
     <section className="relative w-full bg-transparent px-4 pb-16 pt-8">
       <div className="relative z-10 w-full md:px-16 lg:px-24 xl:px-32 mx-auto flex flex-col md:flex-row items-center justify-between gap-12 py-16">
+        
         {/* LEFT CONTENT */}
         <div className="flex flex-col items-start w-full md:w-[55%]">
+          
           {/* Status Badge */}
           <div className="relative inline-flex items-center gap-2.5 bg-white/80 backdrop-blur-md border border-slate-200 rounded-full pl-1.5 pr-4 py-1.5 text-sm shadow-sm">
             <span className="relative flex h-2 w-2">
@@ -51,6 +53,7 @@ const Hero = () => {
                 className="w-full h-full pl-3 outline-none text-base bg-transparent text-slate-900 placeholder:text-slate-400"
               />
             </div>
+
             <button className="bg-emerald-600 hover:bg-emerald-700 h-full px-8 text-base font-semibold text-white cursor-pointer transition flex items-center gap-2">
               Search
               <svg
@@ -70,20 +73,13 @@ const Hero = () => {
           </div>
         </div>
 
-<<<<<<< HEAD
-        {/* RIGHT IMAGE */}
-<div className="max-w-[450px] mx-auto">
-  <img src={img} className="w-full rounded-xl shadow-md" alt="Healthcare" />
-</div>
-
-</div>
-=======
         {/* RIGHT IMAGE - Clean Framed Design */}
         <div className="w-full max-w-md md:max-w-lg mx-auto relative group flex justify-center items-center">
-          {/* Subtle back-glow for the image */}
+          
+          {/* Glow Effect */}
           <div className="absolute inset-0 bg-emerald-400/20 blur-[60px] rounded-full scale-75 group-hover:scale-90 transition-transform duration-500" />
 
-          {/* Rating Badge (Kept this as it adds social proof, but moved it slightly) */}
+          {/* Rating Badge */}
           <div className="absolute -right-8 bottom-12 p-4 bg-white/90 backdrop-blur-md border border-slate-100 rounded-2xl shadow-2xl z-20 group-hover:translate-y-[-4px] transition-transform">
             <div className="flex items-center gap-2">
               <div className="flex">
@@ -106,8 +102,8 @@ const Hero = () => {
             className="w-[90%] h-auto rounded-[2.5rem] shadow-2xl relative z-10 border-8 border-white object-cover aspect-[4/5] group-hover:rotate-1 transition-transform duration-500"
           />
         </div>
+
       </div>
->>>>>>> a5de375777448226a28e08624c70fe4f3ad2d1d2
     </section>
   );
 };
