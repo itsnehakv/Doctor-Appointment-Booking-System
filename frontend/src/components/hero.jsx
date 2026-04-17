@@ -3,6 +3,33 @@ import img from "../assets/doctor-hero.jpg";
 const Hero = () => {
   return (
     <section className="relative w-full bg-transparent px-4 pb-16 pt-8">
+      {/* --- ENHANCED BACKGROUND DESIGN --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* 1. Large Scale Grid Layer */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px)`,
+            backgroundSize: "80px 80px",
+          }}
+        />
+
+        {/* 2. High-Density Dot Mesh Overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage: `radial-gradient(#64748b 0.8px, transparent 0.8px)`,
+            backgroundSize: "24px 24px",
+          }}
+        />
+
+        {/* 3. Primary Emerald Glow (Top Right) */}
+        <div className="absolute top-[-15%] right-[-5%] w-[70%] h-[70%] rounded-full bg-emerald-200/40 blur-[120px]" />
+
+        {/* 4. Secondary Slate Glow (Bottom Left) */}
+        <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-slate-300/40 blur-[100px]" />
+      </div>
+
       <div className="relative z-10 w-full md:px-16 lg:px-24 xl:px-32 mx-auto flex flex-col md:flex-row items-center justify-between gap-12 py-16">
         {/* LEFT CONTENT */}
         <div className="flex flex-col items-start w-full md:w-[55%]">
@@ -70,14 +97,6 @@ const Hero = () => {
           </div>
         </div>
 
-<<<<<<< HEAD
-        {/* RIGHT IMAGE */}
-<div className="max-w-[450px] mx-auto">
-  <img src={img} className="w-full rounded-xl shadow-md" alt="Healthcare" />
-</div>
-
-</div>
-=======
         {/* RIGHT IMAGE - Clean Framed Design */}
         <div className="w-full max-w-md md:max-w-lg mx-auto relative group flex justify-center items-center">
           {/* Subtle back-glow for the image */}
@@ -107,7 +126,6 @@ const Hero = () => {
           />
         </div>
       </div>
->>>>>>> a5de375777448226a28e08624c70fe4f3ad2d1d2
     </section>
   );
 };

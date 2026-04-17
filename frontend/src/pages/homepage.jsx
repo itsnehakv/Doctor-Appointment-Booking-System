@@ -1,19 +1,8 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-<<<<<<< HEAD
-import Footer from "../components/footer";
-import Testimonials from "../components/review";
-
-function HomePage() {
-  return (
-    <>
-      <Navbar />
-      <Hero />
-      <Testimonials/>
-      <Footer/>
-    </>
-=======
 import FeaturesSection from "../components/feature-section";
+import Testimonials from "../components/review";
+import Footer from "../components/footer";
 
 function HomePage() {
   return (
@@ -50,9 +39,10 @@ function HomePage() {
         <Navbar />
         <Hero />
         <FeaturesSection />
+        <Testimonials />
+        <Footer />
       </div>
     </div>
->>>>>>> a5de375777448226a28e08624c70fe4f3ad2d1d2
   );
 }
 
