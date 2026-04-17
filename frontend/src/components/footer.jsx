@@ -8,7 +8,7 @@ const Footer = () => {
 
         {/* About */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">InstantMD</h2>
+          <h2 className="text-xl font-semibold mb-4"><Logo/></h2>
           <p className="text-sm text-emerald-100">
             Book doctor appointments instantly. Find trusted doctors, check availability,
             and get quality healthcare anytime, anywhere.
