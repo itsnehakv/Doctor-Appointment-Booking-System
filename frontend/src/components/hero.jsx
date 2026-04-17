@@ -1,74 +1,113 @@
-import img from "../assets/doctor-hero.jpg"
+import img from "../assets/doctor-hero.jpg";
+
 const Hero = () => {
   return (
-    <section className='w-full bg-[url("https://assets.prebuiltui.com/images/components/hero-section/hero-grid-gradient-img.png")] bg-cover bg-center bg-no-repeat px-4 pb-10'>
-
-      <div className='w-full md:px-16 lg:px-24 xl:px-32 mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-8 py-20'>
-
-        {/* LEFT */}
-        <div className='flex flex-col items-start'>
-
-          <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1 text-sm mt-10">
-            <span className="bg-emerald-600 text-white text-xs px-3 py-1 rounded-full">
-              HEALTH
+    <section className="relative w-full bg-transparent px-4 pb-16 pt-8">
+      <div className="relative z-10 w-full md:px-16 lg:px-24 xl:px-32 mx-auto flex flex-col md:flex-row items-center justify-between gap-12 py-16">
+        {/* LEFT CONTENT */}
+        <div className="flex flex-col items-start w-full md:w-[55%]">
+          {/* Status Badge */}
+          <div className="relative inline-flex items-center gap-2.5 bg-white/80 backdrop-blur-md border border-slate-200 rounded-full pl-1.5 pr-4 py-1.5 text-sm shadow-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <p className="text-emerald-700 text-sm">
+            <p className="text-slate-700 font-medium">
               Trusted by 10,000+ patients
             </p>
           </div>
 
-          <h1 className="text-neutral-900 text-4xl md:text-5xl lg:text-[52px]/16 leading-tight font-semibold max-w-[610px] mt-4">
-            Book Doctor Appointments{" "}
-            <span className="text-emerald-600">
-              Instantly
-            </span>
+          <h1 className="text-slate-950 text-4xl md:text-5xl lg:text-[56px] leading-[1.1] font-extrabold tracking-tighter max-w-[640px] mt-6">
+            Healthcare, <span className="text-emerald-600">Simpler.</span>{" "}
+            <br />
+            Find Doctors Instantly.
           </h1>
 
-          <p className="text-base text-neutral-600 max-w-md mt-4">
-            Find verified doctors, check availability, and book appointments
-            easily. Fast, reliable healthcare at your fingertips.
+          <p className="text-lg text-slate-600 max-w-lg mt-6 leading-relaxed">
+            InstantMD connects you with verified specialists. Browse live
+            availability, read reviews, and book confirmed slots in seconds.
+            Fast, seamless healthcare.
           </p>
 
-          <div className="flex items-center border gap-2 border-neutral-300 h-12 max-w-[440px] w-full rounded-full overflow-hidden mt-6">
-            <input
-              type="text"
-              placeholder="Search doctors, clinics..."
-              className="w-full h-full pl-6 outline-none text-sm bg-transparent text-neutral-600"
-            />
-
-            <button className="bg-emerald-600 hover:bg-emerald-700 w-40 h-10 rounded-full text-sm text-white cursor-pointer mr-1.5 transition">
+          {/* Search Bar */}
+          <div className="flex items-center border border-slate-200 bg-white h-16 w-full rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden mt-10 focus-within:ring-2 focus-within:ring-emerald-200 transition-all">
+            <div className="flex items-center flex-1 h-full border-r border-slate-100 pl-6">
+              <svg
+                className="size-5 text-slate-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <input
+                type="text"
+                placeholder="Doctor name, specialization..."
+                className="w-full h-full pl-3 outline-none text-base bg-transparent text-slate-900 placeholder:text-slate-400"
+              />
+            </div>
+            <button className="bg-emerald-600 hover:bg-emerald-700 h-full px-8 text-base font-semibold text-white cursor-pointer transition flex items-center gap-2">
               Search
+              <svg
+                className="size-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
             </button>
           </div>
-
-          <div className="flex items-center gap-6 mt-10">
-            <div className="flex gap-4">
-              <div className="p-2 bg-white border rounded-full shadow-sm">🩺</div>
-              <div className="p-2 bg-white border rounded-full shadow-sm">💊</div>
-              <div className="p-2 bg-white border rounded-full shadow-sm">🏥</div>
-              <div className="p-2 bg-white border rounded-full shadow-sm">👨‍⚕️</div>
-            </div>
-
-            <div>
-              <div className="flex">
-                {Array(5).fill(0).map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-lg">★</span>
-                ))}
-              </div>
-              <p className="text-xs text-neutral-600">
-                Trusted healthcare platform
-              </p>
-            </div>
-          </div>
-
         </div>
 
+<<<<<<< HEAD
         {/* RIGHT IMAGE */}
 <div className="max-w-[450px] mx-auto">
   <img src={img} className="w-full rounded-xl shadow-md" alt="Healthcare" />
 </div>
 
 </div>
+=======
+        {/* RIGHT IMAGE - Clean Framed Design */}
+        <div className="w-full max-w-md md:max-w-lg mx-auto relative group flex justify-center items-center">
+          {/* Subtle back-glow for the image */}
+          <div className="absolute inset-0 bg-emerald-400/20 blur-[60px] rounded-full scale-75 group-hover:scale-90 transition-transform duration-500" />
+
+          {/* Rating Badge (Kept this as it adds social proof, but moved it slightly) */}
+          <div className="absolute -right-8 bottom-12 p-4 bg-white/90 backdrop-blur-md border border-slate-100 rounded-2xl shadow-2xl z-20 group-hover:translate-y-[-4px] transition-transform">
+            <div className="flex items-center gap-2">
+              <div className="flex">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span key={star} className="text-yellow-400 text-xs">
+                    ★
+                  </span>
+                ))}
+              </div>
+              <span className="text-slate-900 font-bold text-sm">4.9/5</span>
+            </div>
+            <p className="text-[10px] text-slate-500 font-medium mt-1">
+              Patient Satisfaction
+            </p>
+          </div>
+
+          <img
+            src={img}
+            alt="Verified Doctor"
+            className="w-[90%] h-auto rounded-[2.5rem] shadow-2xl relative z-10 border-8 border-white object-cover aspect-[4/5] group-hover:rotate-1 transition-transform duration-500"
+          />
+        </div>
+      </div>
+>>>>>>> a5de375777448226a28e08624c70fe4f3ad2d1d2
     </section>
   );
 };
