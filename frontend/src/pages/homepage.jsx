@@ -34,7 +34,6 @@ function HomePage() {
         <div className="absolute top-[700px] left-[-10%] w-[60%] h-[700px] rounded-full bg-emerald-100/30 blur-[130px]" />
       </div>
 
-      {/* --- CONTENT LAYER --- */}
       <div className="relative z-10">
         <Hero />
         <PartnersMarquee />
