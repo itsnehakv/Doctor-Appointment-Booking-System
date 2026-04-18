@@ -56,6 +56,11 @@ const AboutUs = () => {
         </div>
       </section>
       <div className="max-w-5xl mx-auto px-4 py-24"></div>
+      <MissionState/>
+      <div style={{ paddingTop: '150px', paddingLeft: '5px' }}></div>
+      <TeamSec/>  
+            <div style={{ paddingTop: '150px', paddingLeft: '5px' }}></div>
+
     </div>
   );
 };
