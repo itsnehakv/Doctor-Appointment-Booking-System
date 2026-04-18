@@ -1,20 +1,12 @@
-/* 1. Force-import the font from Google (This is why it's missing on About) */
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 @import "tailwindcss";
 
 @layer base {
-  /* 2. Apply it to the HTML tag so it's impossible for a page to miss it */
-  html {
-    font-family: "Geist", sans-serif !important;
+  body {
+    font-family: "Poppins", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* 3. Specifically lock the Navbar and Button font */
-  nav,
-  button,
-  .pearl-button {
-    font-family: "Geist", sans-serif !important;
   }
 }
