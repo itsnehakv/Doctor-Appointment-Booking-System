@@ -1,3 +1,4 @@
+/* CONTACT PAGE*/
 export function Socials() {
   return (
     <div className="mt-3">
