@@ -1,29 +1,46 @@
-function Logo() {
+function Logo({
+  iconColor = "text-emerald-500",
+  textColor = "text-slate-950",
+  spanColor = "text-emerald-600",
+}) {
   return (
     <div className="flex items-center gap-3">
-      
-      {/* Pulse Icon */}
+      {/* Precision Medical Symbol */}
       <svg
         width="34"
         height="34"
         viewBox="0 0 24 24"
         fill="none"
-        className="text-emerald-800"
+        className={iconColor}
       >
-        <path
-          d="M3 12h4l2-5 4 10 2-5h4"
+        {/* Horizontal Bar */}
+        <rect
+          x="3"
+          y="10"
+          width="18"
+          height="4"
+          rx="1.5"
           stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          strokeWidth="2.2"
         />
+        {/* Vertical Bar */}
+        <rect
+          x="10"
+          y="3"
+          width="4"
+          height="18"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth="2.2"
+        />
+        {/* Center Precision Point */}
+        <circle cx="12" cy="12" r="1.2" fill="currentColor" />
       </svg>
 
-      {/* Brand */}
-      <h1 className="text-white font-semibold text-xl tracking-tight">
-        Instant<span className="text-emerald-800">MD</span>
+      {/* Brand Text */}
+      <h1 className={`${textColor} font-bold text-xl tracking-tighter`}>
+        Instant<span className={spanColor}>MD</span>
       </h1>
-
     </div>
   );
 }
