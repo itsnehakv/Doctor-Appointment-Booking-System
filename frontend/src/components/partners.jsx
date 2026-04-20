@@ -3,13 +3,13 @@ import React from "react";
 const PartnersMarquee = () => {
   // Medical/Insurance focused "logos"
   const partners = [
-    "Aetna",
-    "Cigna",
-    "MetLife",
-    "UnitedHealth",
-    "BlueCross",
-    "Kaiser",
-    "Humana",
+    "Aster CMI Hospital",
+    "Manipal Hospital",
+    "Apollo Hospital",
+    "Fortis Hospital",
+    "Sakra World Hospital",
+    "St. John's Medical Hospital",
+    
   ];
 
   return (

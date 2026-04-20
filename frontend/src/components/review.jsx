@@ -56,7 +56,7 @@ export default function Testimonials() {
                             },
                             {
                                 text: "Not super tech-savvy, but I could still use it without any help. That says a lot.",
-                                name: "Kavya N."
+                                name: "Suchith N."
                             },
                             {
                                 text: "Found a nearby doctor quickly when I needed one urgently. That was really helpful.",
