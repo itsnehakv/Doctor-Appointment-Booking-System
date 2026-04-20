@@ -1,14 +1,13 @@
-/* CONTACT PAGE*/
+/*CONTACT PAGE*/
 export function Socials() {
   return (
-    <div className="mt-3">
-      <div className="w-16 h-[3px] bg-gradient-to-r from-emerald-600 to-emerald-300 rounded-full mx-auto mb-3"></div>
-
-      <p className="flex items-center justify-center py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-4">
-        Official Channels
+    <div className="mt-10 mb-6">
+      {/* High Contrast Header - Larger Font */}
+      <p className="text-center text-sm font-bold uppercase tracking-widest text-emerald-700 mb-6">
+        Find Us On Social Media
       </p>
 
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-center gap-6">
         {[
           {
             name: "X",
@@ -41,16 +40,16 @@ export function Socials() {
           <a
             key={social.name}
             href="#"
-            className="flex items-center justify-center size-10 rounded-xl bg-slate-50 border border-slate-100 text-slate-400 hover:text-emerald-600 hover:border-emerald-200 hover:bg-emerald-50 transition-all duration-300 group"
+            aria-label={`Visit our ${social.name} page`}
+            className="flex items-center justify-center size-16 rounded-2xl bg-white border-4 border-emerald-600 text-emerald-800 hover:bg-emerald-600 hover:text-white hover:border-emerald-700 transition-all duration-200 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
           >
             <svg
-              width="18"
-              height="18"
+              width="32"
+              height="32"
               viewBox="0 0 24 24"
               fill={social.type === "fill" ? "currentColor" : "none"}
               stroke={social.type === "stroke" ? "currentColor" : "none"}
-              strokeWidth="2"
-              className="group-hover:scale-110 transition-transform"
+              strokeWidth="2.5"
             >
               {social.name === "X" ? (
                 <path d={social.path} />
