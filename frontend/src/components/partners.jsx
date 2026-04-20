@@ -8,12 +8,13 @@ import Stjohn from "../assets/Stjohn.png";
 
 const PartnersMarquee = () => {
   const partners = [
-    { name: "Aster CMI Hospital", logo: Aster },
-    { name: "Manipal Hospital", logo: Manipal },
-    { name: "Apollo Hospital", logo: apollo },
-    { name: "Fortis Hospital", logo: fortis },
-    { name: "Narayana Hospital", logo: Narayana },
-    { name: "St. John's Medical College Hospital", logo: Stjohn },
+    "Aster CMI Hospital",
+    "Manipal Hospital",
+    "Apollo Hospital",
+    "Fortis Hospital",
+    "Sakra World Hospital",
+    "St. John's Medical Hospital",
+    
   ];
 
   // Doubling the array ensures the second set follows the first immediately
