@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
-import Homepage from "./pages/homepage";
-
-function App() {
-  return <Homepage />;
-=======
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar";
 import HomePage from "./pages/homepage";
@@ -29,7 +23,6 @@ function App() {
       </div>
     </Router>
   );
->>>>>>> Stashed changes
 }
 
 export default App;
