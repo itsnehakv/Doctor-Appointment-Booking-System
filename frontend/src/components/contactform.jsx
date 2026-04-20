@@ -20,17 +20,17 @@ export function ContactForm() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <label className="text-[11px] uppercase tracking-[0.2em] text-slate-400 font-bold ml-1">
-                Identity
+                FULL NAME
               </label>
               <input
                 type="text"
                 className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 transition-all text-slate-900 placeholder:text-slate-300"
-                placeholder="Full Name"
+                placeholder="John Doe"
               />
             </div>
             <div className="space-y-3">
               <label className="text-[11px] uppercase tracking-[0.2em] text-slate-400 font-bold ml-1">
-                Endpoint
+                EMAIL ADDRESS
               </label>
               <input
                 type="email"
@@ -42,12 +42,12 @@ export function ContactForm() {
 
           <div className="space-y-3">
             <label className="text-[11px] uppercase tracking-[0.2em] text-slate-400 font-bold ml-1">
-              Payload Description
+              MESSAGE
             </label>
             <textarea
               rows="4"
               className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/50 transition-all text-slate-900 placeholder:text-slate-300 resize-none"
-              placeholder="Message..."
+              placeholder="Describe your requirements..."
             ></textarea>
           </div>
 
