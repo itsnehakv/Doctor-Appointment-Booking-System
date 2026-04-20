@@ -1,4 +1,4 @@
-/* SUPPORT GRID (Soft Glass Style) */
+/*CONTACT PAGE*/
 export function SupportGrid() {
   const tiers = [
     {
@@ -28,10 +28,8 @@ export function SupportGrid() {
           key={i}
           className="group relative p-10 rounded-[2.5rem] bg-white/60 border border-slate-100 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.12)] hover:border-emerald-500/20 transition-all duration-500 overflow-hidden"
         >
-          {/* UPGRADED: Top-right Blur Accent */}
           <div className="absolute top-0 right-0 size-32 bg-emerald-500/5 rounded-bl-[5rem] border-l border-b border-emerald-100/50 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-y-4 translate-x-4 group-hover:translate-y-0 group-hover:translate-x-0" />
 
-          {/* UPGRADED: Glass-morphism Icon Container */}
           <div className="size-14 mb-8 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-emerald-600 group-hover:text-white group-hover:bg-emerald-600 shadow-[0_2px_10px_rgba(0,0,0,0.02)] group-hover:shadow-lg group-hover:shadow-emerald-200 group-hover:-translate-y-1 transition-all duration-500">
             <svg
               width="24"
@@ -51,7 +49,7 @@ export function SupportGrid() {
             </svg>
           </div>
 
-          <h3 className="relative z-10 text-[12px] font-black uppercase tracking-[0.25em] text-slate-700 group-hover:text-emerald-700 mb-4 transition-colors">
+          <h3 className="relative z-10 text-xl font-extrabold tracking-tight text-slate-800 group-hover:text-emerald-800 mb-3 transition-colors">
             {tier.title}
           </h3>
 

@@ -1,10 +1,9 @@
-/*CONTACT PAGE*/
+/* CONTACT PAGE SOCIALS */
 export function Socials() {
   return (
-    <div className="mt-10 mb-6">
-      {/* High Contrast Header - Larger Font */}
-      <p className="text-center text-sm font-bold uppercase tracking-widest text-emerald-700 mb-6">
-        Find Us On Social Media
+    <div className="mt-12 mb-8">
+      <p className="text-center text-xl font-extrabold tracking-tight text-emerald-800 mb-8">
+        Connect With Us
       </p>
 
       <div className="flex flex-wrap items-center justify-center gap-6">
@@ -41,11 +40,11 @@ export function Socials() {
             key={social.name}
             href="#"
             aria-label={`Visit our ${social.name} page`}
-            className="flex items-center justify-center size-16 rounded-2xl bg-white border-4 border-emerald-600 text-emerald-800 hover:bg-emerald-600 hover:text-white hover:border-emerald-700 transition-all duration-200 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]"
+            className="flex items-center justify-center size-12 rounded-xl bg-white border-[3px] border-emerald-600 text-emerald-800 hover:bg-emerald-600 hover:text-white hover:border-emerald-700 transition-all duration-200 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1.5px] hover:translate-y-[1.5px]"
           >
             <svg
-              width="32"
-              height="32"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill={social.type === "fill" ? "currentColor" : "none"}
               stroke={social.type === "stroke" ? "currentColor" : "none"}
