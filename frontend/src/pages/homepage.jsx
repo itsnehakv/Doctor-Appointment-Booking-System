@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import FeaturesSection from "../components/feature-section";
 import Testimonials from "../components/review";
@@ -7,7 +6,7 @@ import PartnersMarquee from "../components/partners";
 
 function HomePage() {
   return (
-    <div className="relative w-full min-h-screen bg-slate-50 font-geist">
+    <div className="relative w-full min-h-screen bg-slate-50 ">
       {/* --- SHARED BACKGROUND LAYER --- */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* 1. Large Scale Grid Layer (Continuous) */}
@@ -35,9 +34,7 @@ function HomePage() {
         <div className="absolute top-[700px] left-[-10%] w-[60%] h-[700px] rounded-full bg-emerald-100/30 blur-[130px]" />
       </div>
 
-      {/* --- CONTENT LAYER --- */}
       <div className="relative z-10">
-        <Navbar />
         <Hero />
         <PartnersMarquee />
         <FeaturesSection />

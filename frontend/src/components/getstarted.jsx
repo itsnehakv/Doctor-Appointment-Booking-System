@@ -7,7 +7,7 @@ function GetStarted() {
         <p>
           <span>✧</span>
           <span>✦</span>
-          Get Started
+          Book Appointment
         </p>
       </div>
     </button>
