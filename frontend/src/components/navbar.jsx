@@ -16,25 +16,7 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between border-3 border-emerald-600 mx-4 mt-4 px-6 py-4 rounded-full bg-[#FAFAF9]/80 backdrop-blur-md shadow-sm  antialiased text-stone-700 text-sm [text-rendering:optimizeLegibility] font-poppins">
       <Link to="/" className="flex items-center gap-2">
-        <svg
-          width="26"
-          height="26"
-          viewBox="0 0 24 24"
-          fill="none"
-          className="text-emerald-600"
-        >
-          <path
-            d="M4 12h3l2-4 4 8 2-4h3"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-
-        <h1 className="font-semibold text-lg text-stone-900">
-          Instant
-          <span className="text-emerald-600">MD</span>
-        </h1>
+        <Logo iconColor="text-emerald-600" textColor="text-slate-900" />
       </Link>
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center gap-8 ml-7">
