@@ -78,17 +78,25 @@ const ContactHero = () => {
 
         {/* RIGHT IMAGE - New Square Framed Design */}
         <div className="w-full max-w-sm md:max-w-md mx-auto relative group">
-          {/* Subtle Emerald Glow Behind Image */}
-          <div className="absolute inset-0 bg-emerald-300/15 blur-[60px] rounded-full scale-90 group-hover:scale-105 transition-transform duration-500" />
+          {/* Main Background Container */}
+          <div className="relative z-10 w-full aspect-square bg-white p-2.5 rounded-[3rem] border border-slate-100/80 shadow-2xl shadow-slate-900/5 group-hover:border-emerald-100/60 transition-colors duration-500">
+            {/* Emerald Accent Layer (Behind Image) */}
+            <div className="absolute inset-1.5 bg-emerald-50/50 rounded-[2.5rem] -z-10 group-hover:bg-emerald-50 transition-colors" />
 
-          {/* New Device-Style Frame (Thinner border, slight rotation removed for clean look) */}
-          <div className="relative z-10 p-2 bg-slate-100/50 backdrop-blur-sm rounded-[2.5rem] border border-slate-200 shadow-xl shadow-slate-900/5">
-            <div className="aspect-square overflow-hidden rounded-[2rem] border-4 border-white shadow-inner">
+            {/* Subtle Hover Glow Effect */}
+            <div className="absolute inset-0 bg-emerald-400/0 blur-[40px] rounded-full group-hover:bg-emerald-400/5 transition-colors duration-1000" />
+
+            {/* Precision Image Container */}
+            <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-inner p-1.5 bg-white">
+              {/* Image with subtle aesthetic adjustments */}
               <img
                 src={teleimg}
                 alt="Operations Visual"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1500ms] brightness-[1.02] contrast-[1.03] rounded-[2rem]"
               />
+
+              {/* Ultra-subtle overlay for tech texture */}
+              <div className="absolute inset-0 z-10 pointer-events-none opacity-[0.015] bg-[linear-gradient(90deg,transparent_24%,#64748b_25%,#64748b_26%,transparent_27%,transparent_74%,#64748b_75%,#64748b_76%,transparent_77%)] bg-[length:24px_100%]" />
             </div>
           </div>
         </div>
