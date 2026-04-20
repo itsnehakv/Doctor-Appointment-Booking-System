@@ -1,4 +1,4 @@
-export default function TransmitButton({ text = "Dispatch Message" }) {
+export default function TransmitButton({ text = "Send Message" }) {
   return (
     <button
       type="submit"

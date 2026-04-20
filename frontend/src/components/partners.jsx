@@ -1,7 +1,12 @@
 import React from "react";
+import Narayana from "../assets/Narayana.png";
+import Manipal from "../assets/Manipal-Hospitals-Logo.png";
+import Aster from "../assets/Asterhospital.png";
+import apollo from "../assets/apollo-hospitals.svg";
+import fortis from "../assets/Fortis-Logo.png";
+import Stjohn from "../assets/Stjohn.png";
 
 const PartnersMarquee = () => {
-  // Medical/Insurance focused "logos"
   const partners = [
     "Aster CMI Hospital",
     "Manipal Hospital",
@@ -12,46 +17,52 @@ const PartnersMarquee = () => {
     
   ];
 
+  // Doubling the array ensures the second set follows the first immediately
+  const doubledPartners = [...partners, ...partners];
+
   return (
-    <section className="relative w-full py-10 bg-transparent overflow-hidden">
+    <section className="w-full py-12 bg-white overflow-hidden">
       <style>{`
-                .marquee-inner {
-                    animation: marqueeScroll 25s linear infinite;
-                }
+        @keyframes scroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
 
-                @keyframes marqueeScroll {
-                    0% { transform: translateX(0%); }
-                    100% { transform: translateX(-50%); }
-                }
-            `}</style>
+        .animate-marquee {
+          display: flex;
+          width: max-content;
+          animation: scroll 30s linear infinite;
+        }
 
-      <div className="max-w-5xl mx-auto px-4 mb-6">
-        <p className="text-center text-slate-400 text-xs font-bold tracking-[0.2em] uppercase">
-          Supported Insurance & Medical Partners
-        </p>
-      </div>
+        /* Stops the jumpy behavior by keeping image widths consistent */
+        .marquee-item {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      `}</style>
 
-      <div className="overflow-hidden w-full relative select-none">
-        {/* Fade effect to match the Slate-50 background */}
-        <div className="absolute left-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-gradient-to-r from-slate-50 to-transparent" />
+      <p className="text-center text-slate-500 text-sm mb-8 tracking-widest uppercase">
+        Trusted Hospital Partners
+      </p>
 
-        <div className="marquee-inner flex will-change-transform min-w-max">
-          {/* Doubling the array for seamless loop */}
-          {[...partners, ...partners, ...partners, ...partners].map(
-            (partner, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-center mx-12 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-default"
-              >
-                <span className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter italic">
-                  {partner}
-                </span>
-              </div>
-            )
-          )}
+      <div className="relative flex overflow-hidden">
+        {/* The gap here (gap-16) must match the spacing at the end of the loop */}
+        <div className="animate-marquee gap-16 items-center">
+          {doubledPartners.map((partner, index) => (
+            <div
+              key={index}
+              className="marquee-item grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+            >
+              <img
+                src={partner.logo}
+                alt={partner.name}
+                className="h-12 md:h-16 w-auto object-contain px-4"
+              />
+            </div>
+          ))}
         </div>
-
-        <div className="absolute right-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-gradient-to-l from-slate-50 to-transparent" />
       </div>
     </section>
   );

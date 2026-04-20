@@ -76,27 +76,60 @@ const ContactHero = () => {
           </div>
         </div>
 
-        {/* RIGHT IMAGE - New Square Framed Design */}
-        <div className="w-full max-w-sm md:max-w-md mx-auto relative group">
-          {/* Main Background Container */}
-          <div className="relative z-10 w-full aspect-square bg-white p-2.5 rounded-[3rem] border border-slate-100/80 shadow-2xl shadow-slate-900/5 group-hover:border-emerald-100/60 transition-colors duration-500">
-            {/* Emerald Accent Layer (Behind Image) */}
-            <div className="absolute inset-1.5 bg-emerald-50/50 rounded-[2.5rem] -z-10 group-hover:bg-emerald-50 transition-colors" />
+        {/* RIGHT IMAGE - HIGH-ENERGY 3D MULTI-FRAME */}
+        <div className="w-full max-w-sm md:max-w-md mx-auto relative group perspective-1000">
+          {/* 1. The "Energy Layers" - Dramatic expansion on hover */}
+          <div
+            className="absolute inset-0 z-0 bg-emerald-200/40 rounded-[4rem] blur-[20px] 
+    transition-all duration-500 ease-out 
+    group-hover:-translate-x-12 group-hover:-translate-y-8 group-hover:scale-110 group-hover:rotate-6"
+          />
 
-            {/* Subtle Hover Glow Effect */}
-            <div className="absolute inset-0 bg-emerald-400/0 blur-[40px] rounded-full group-hover:bg-emerald-400/5 transition-colors duration-1000" />
+          <div
+            className="absolute inset-0 z-0 bg-slate-200/60 rounded-[4rem] blur-[15px] 
+    transition-all duration-500 ease-out delay-75
+    group-hover:translate-x-12 group-hover:translate-y-8 group-hover:-rotate-6"
+          />
 
-            {/* Precision Image Container */}
-            <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-inner p-1.5 bg-white">
-              {/* Image with subtle aesthetic adjustments */}
+          {/* 2. The Main Structure - With 3D Tilt effect */}
+          <div
+            className="relative z-10 w-full aspect-square bg-white border-2 border-slate-100 p-4 rounded-[3.5rem] 
+    shadow-[0_20px_50px_-20px_rgba(0,0,0,0.1)] 
+    transition-all duration-500 ease-out
+    group-hover:scale-105 group-hover:-rotate-2 group-hover:border-emerald-200 group-hover:shadow-[0_40px_80px_-20px_rgba(16,185,129,0.25)]
+    overflow-hidden"
+          >
+            {/* Inner Precision Grid */}
+            <div
+              className="absolute inset-0 opacity-[0.05]"
+              style={{
+                backgroundImage: `linear-gradient(#10b981 1px, transparent 1px), linear-gradient(90deg, #10b981 1px, transparent 1px)`,
+                backgroundSize: "40px 40px",
+              }}
+            />
+
+            {/* 3. The Lens - Beveled inner container */}
+            <div
+              className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-2 border-slate-100 bg-white 
+      transition-all duration-500 
+      group-hover:border-emerald-400 group-hover:p-1"
+            >
+              {/* 4. The Image - Heavy Zoom and Brightness Pop */}
               <img
                 src={teleimg}
                 alt="Operations Visual"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1500ms] brightness-[1.02] contrast-[1.03] rounded-[2rem]"
+                className="w-full h-full object-cover rounded-[2rem]
+          transition-all duration-700 ease-in-out
+          group-hover:scale-125 group-hover:brightness-110 group-hover:contrast-110"
               />
 
-              {/* Ultra-subtle overlay for tech texture */}
-              <div className="absolute inset-0 z-10 pointer-events-none opacity-[0.015] bg-[linear-gradient(90deg,transparent_24%,#64748b_25%,#64748b_26%,transparent_27%,transparent_74%,#64748b_75%,#64748b_76%,transparent_77%)] bg-[length:24px_100%]" />
+              {/* 5. Animated Scanline Effect */}
+              <div
+                className="absolute inset-0 z-10 pointer-events-none 
+        bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent 
+        h-[200%] w-full -translate-y-full 
+        group-hover:animate-[scan_2s_linear_infinite]"
+              />
             </div>
           </div>
         </div>
