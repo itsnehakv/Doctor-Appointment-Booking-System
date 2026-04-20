@@ -39,7 +39,6 @@ function HomePage() {
         <PartnersMarquee />
         <FeaturesSection />
         <Testimonials />
-        <Footer />
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import GetStarted from "./getstarted.jsx";
+import Logo from "./logo.jsx";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
