@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import GetStarted from "./getstarted.jsx";
+import Logo from "./logo.jsx";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-  const location = useLocation(); // Useful for styling active links later
-
+  const location = useLocation();
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
@@ -14,11 +14,7 @@ function Navbar() {
   ];
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between border-3 border-emerald-600 mx-4 mt-4 px-6 py-4 rounded-full bg-[#FAFAF9]/80 backdrop-blur-md shadow-sm 
-font-geist antialiased text-stone-700 text-sm"
-    >
-      {/* Logo - Linked to Home */}
+    <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between border-3 border-emerald-600 mx-4 mt-4 px-6 py-4 rounded-full bg-[#FAFAF9]/80 backdrop-blur-md shadow-sm  antialiased text-stone-700 text-sm [text-rendering:optimizeLegibility] font-poppins">
       <Link to="/" className="flex items-center gap-2">
         <svg
           width="26"

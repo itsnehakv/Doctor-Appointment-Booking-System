@@ -4,11 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // This makes Geist the default sans-serif font app-wide
-        sans: ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
-      },
-      colors: {
-        primary: "#2563eb",
+        poppins: ["Poppins", "sans-serif"],
       },
     },
   },
