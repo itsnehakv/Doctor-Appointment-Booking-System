@@ -1,13 +1,11 @@
-// src/pages/Auth.jsx
-import React from 'react';
-import Login from '../components/Login';
+import { SignIn } from "@clerk/clerk-react";
 
-const Auth = () => {
+export default function AuthPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-slate-50 px-4">
-      <Login />
+    <div className="flex min-h-screen items-center justify-center bg-[#FAFAF9] px-4">
+      <div className="w-full max-w-md">
+        <SignIn routing="path" path="/login" signUpUrl="/signup" />
+      </div>
     </div>
   );
-};
-
-export default Auth;
+}
