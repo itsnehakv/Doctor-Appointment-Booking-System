@@ -10,3 +10,80 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+.cl-headerTitle {
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 700 !important; /* Thicker for Pizzazz */
+  letter-spacing: -0.8px !important;
+  font-size: 30px !important;
+  display: inline-block !important;
+
+  /* Precision Split for "Sign in InstantMD" */
+  /* Adjust % values if the color flips too early/late on your screen */
+  background: linear-gradient(
+    to right,
+    #059669 0%,
+    /* Emerald for 'Sign in' */ #059669 35%,
+    #000000 61%,
+    #000000 80%,
+    #059669 77%
+  ) !important;
+
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  padding-bottom: 2px;
+}
+
+.cl-formButtonPrimary {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px !important;
+  border: 2px solid #059669 !important;
+  background-color: transparent !important;
+  border-radius: 50px !important;
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  color: #059669 !important;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  z-index: 1; /* Container layer */
+  height: 48px !important;
+}
+
+.cl-formButtonPrimary > span {
+  position: relative;
+  z-index: 10 !important;
+  transition: color 0.4s ease;
+}
+
+.cl-formButtonPrimary::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0px;
+  height: 0px;
+  background-color: #059669;
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1;
+}
+
+.cl-formButtonPrimary:hover {
+  color: white !important;
+  box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
+}
+
+.cl-formButtonPrimary:hover::before {
+  width: 450px;
+  height: 450px;
+  opacity: 1;
+}
+
+.cl-formButtonPrimary:hover .cl-formButtonPrimary__text {
+  color: white !important;
+}
