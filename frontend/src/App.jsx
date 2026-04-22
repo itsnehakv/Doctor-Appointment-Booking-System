@@ -49,9 +49,7 @@ function App() {
               <Route path="/signup/*" element={<AuthPage />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/contact" element={<Contact />} />
-                                         <Route path="/services" element={<Services/>} />
-
-                                           
+              <Route path="/services" element={<Services />} />
             </Routes>
           </main>
           <Footer />
