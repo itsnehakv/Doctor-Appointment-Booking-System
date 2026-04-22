@@ -5,6 +5,7 @@ import AboutUs from "./pages/about-us";
 import Contact from "./pages/contact.jsx";
 import AuthPage from "./pages/auth";
 import Footer from "./components/footer.jsx";
+import Services from "./pages/services.jsx";
 import { ClerkProvider } from "@clerk/clerk-react";
 import Logo from "./components/logo.jsx";
 
@@ -48,6 +49,9 @@ function App() {
               <Route path="/signup/*" element={<AuthPage />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/contact" element={<Contact />} />
+                                         <Route path="/services" element={<Services/>} />
+
+                                           
             </Routes>
           </main>
           <Footer />
