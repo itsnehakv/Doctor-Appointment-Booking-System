@@ -33,7 +33,13 @@ const Footer = () => {
         
         {/* About */}
         <div>
-          <h2 className="text-xl font-semibold mb-4"><Logo/></h2>
+          <h2 className="text-xl font-semibold mb-4">
+            <Logo
+              iconColor="text-emerald-200"
+              textColor="text-emerald-900"
+              spanColor="text-emerald-200"
+            />
+          </h2>
           <p className="text-sm text-emerald-100">
             Book doctor appointments instantly. Find trusted doctors, check
             availability, and get quality healthcare anytime, anywhere.Our platform connects patients with verified healthcare professionals, making it easy to search, compare, and book appointments anytime. We focus on saving your time and making healthcare more accessible.

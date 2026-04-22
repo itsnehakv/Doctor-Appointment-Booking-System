@@ -20,6 +20,7 @@ function App() {
             <Route path="/services"element={<Services/>}/>
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );
