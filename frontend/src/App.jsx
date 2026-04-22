@@ -6,6 +6,7 @@ import Contact from "./pages/contact.jsx";
 import Footer from "./components/footer.jsx";
 import Category from"./pages/category.jsx";
 import Services from "./pages/services.jsx";
+import AppointmentMode from "./pages/AppointmentMode.jsx";
 
 
 // import Footer from "./components/Footer";
@@ -23,6 +24,8 @@ function App() {
                          <Route path="/services" element={<Services/>} />
 
             <Route path="/services/category" element={<Category/>}/>
+                         <Route path="/mode" element={<AppointmentMode/>} />
+
           </Routes>
         </main>
         <Footer />
