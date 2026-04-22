@@ -15,3 +15,7 @@ env/
 
 # Database
 *.sqlite3
+
+# test files
+reset_db.py
+test_conn.py
