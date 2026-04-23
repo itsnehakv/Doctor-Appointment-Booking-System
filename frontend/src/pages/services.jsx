@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ShieldPlus,
   Scissors,
@@ -19,7 +20,6 @@ import {
   Bone,
   Sparkles,
   Wind,
-  Dna   
 } from "lucide-react";
 
 const servicesData = [
@@ -49,29 +49,20 @@ const servicesData = [
 const Services = () => {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   const categories = ["All", "Surgical", "Medical", "Paediatric", "Diagnostic"];
 
-  const sortedServices = [...servicesData].sort((a, b) =>
-    a.title.localeCompare(b.title)
-  );
-
-  const filteredServices = sortedServices.filter(service => {
+  const filteredServices = servicesData.filter((service) => {
     const query = search.toLowerCase().trim();
-
-    const matchesCategory =
-      filter === "All" || service.category === filter;
-
+    const matchesCategory = filter === "All" || service.category === filter;
     const matchesSearch =
-      query === "" ||
-      service.title.toLowerCase().startsWith(query.slice(0, 3));
-
+      query === "" || service.title.toLowerCase().startsWith(query.slice(0, 3));
     return matchesCategory && matchesSearch;
   });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-100 pt-28 pb-16 px-4 sm:px-6 lg:px-8">
-
       {/* Header */}
       <div className="max-w-7xl mx-auto text-center mb-12">
         <p className="text-emerald-600 font-semibold mb-2 tracking-wide">
@@ -85,7 +76,6 @@ const Services = () => {
       {/* Search */}
       <div className="max-w-xl mx-auto mb-12 relative">
         <div className="flex items-center bg-white rounded-full border-2 border-emerald-300 focus-within:border-emerald-600 transition-all">
-
           <Search className="ml-4 text-emerald-600" size={18} />
 
           <input
@@ -125,19 +115,24 @@ const Services = () => {
         ))}
       </div>
 
-      {/* Cards */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredServices.map((service) => (
           <div
             key={service.id}
+            onClick={() =>
+              navigate("/doctors", {
+                state: { selectedCategory: service.title },
+              })
+            }
             className="p-5 rounded-xl bg-white/70 backdrop-blur-md border border-white/40
-                       shadow-md transition-all duration-300
-                       hover:-translate-y-3 hover:scale-[1.02]
-                       hover:shadow-[0_15px_40px_rgba(16,185,129,0.25)] group"
+               shadow-md transition-all duration-300 cursor-pointer
+               hover:-translate-y-3 hover:scale-[1.02]
+               hover:shadow-[0_15px_40px_rgba(16,185,129,0.25)] group"
           >
-
-            <div className="w-12 h-12 flex items-center justify-center rounded-lg
-                            bg-emerald-500 text-white mb-4 group-hover:scale-110 transition">
+            <div
+              className="w-12 h-12 flex items-center justify-center rounded-lg
+                            bg-emerald-500 text-white mb-4 group-hover:scale-110 transition"
+            >
               {service.icon}
             </div>
 
@@ -145,18 +140,14 @@ const Services = () => {
               {service.title}
             </h3>
 
-            <p className="text-sm text-gray-600 mb-4">
-              {service.description}
-            </p>
+            <p className="text-sm text-gray-600 mb-4">{service.description}</p>
 
             <span className="text-xs px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full">
               {service.category}
             </span>
-
           </div>
         ))}
       </div>
-
     </div>
   );
 };
