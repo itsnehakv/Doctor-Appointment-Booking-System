@@ -8,6 +8,8 @@ import Footer from "./components/footer.jsx";
 import Services from "./pages/services.jsx";
 import { ClerkProvider } from "@clerk/clerk-react";
 import Logo from "./components/logo.jsx";
+import DoctorsPage from "./pages/doctorspage.jsx";
+import DoctorDetails from "./pages/doctordetails.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -50,6 +52,8 @@ function App() {
               <Route path="/about" element={<AboutUs />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/doctors" element={<DoctorsPage />} />
+              <Route path="/doctor/:id" element={<DoctorDetails />} />
             </Routes>
           </main>
           <Footer />

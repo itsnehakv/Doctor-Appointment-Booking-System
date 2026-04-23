@@ -99,7 +99,7 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* 🟢 SINCE 2020 (moved higher) */}
+          {/* 🟢 SINCE 2020 */}
           <div className="absolute -right-8 bottom-36 p-4 bg-white/90 backdrop-blur-md border border-slate-100 rounded-2xl shadow-2xl z-20 group-hover:translate-y-[-4px] transition-transform">
             <span className="text-emerald-700 font-bold text-sm">
               SINCE 2020
@@ -109,11 +109,11 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Image */}
+          {/* Image (MOTION REMOVED HERE) */}
           <img
             src={img}
             alt="Verified Doctor"
-            className="w-[90%] h-auto rounded-[2.5rem] shadow-2xl relative z-10 border-8 border-white object-cover aspect-[4/5] group-hover:rotate-1 transition-transform duration-500"
+            className="w-[90%] h-auto rounded-[2.5rem] shadow-2xl relative z-10 border-8 border-white object-cover aspect-[4/5]"
           />
         </div>
 
