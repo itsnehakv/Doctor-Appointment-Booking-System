@@ -5,7 +5,6 @@ import AboutUs from "./pages/about-us";
 import Contact from "./pages/contact.jsx";
 import Footer from "./components/footer.jsx";
 import Services from "./pages/services.jsx";
-// import Footer from "./components/Footer";
 
 function App() {
   return (
