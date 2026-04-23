@@ -6,7 +6,6 @@ import Contact from "./pages/contact.jsx";
 import Footer from "./components/footer.jsx";
 import Services from "./pages/services.jsx";
 
-
 function App() {
   return (
     <Router>
@@ -17,7 +16,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/services" element={<Services />} />
+            <Route path="/services"element={<Services/>}/>
           </Routes>
         </main>
         <Footer />
