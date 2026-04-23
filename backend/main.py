@@ -105,7 +105,6 @@ def get_doctor_by_id(doctor_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Doctor not found")
     return doctor
 
-
 @app.get("/doctors/{doctor_id}/slots")
 def get_available_slots(
         doctor_id: int,
