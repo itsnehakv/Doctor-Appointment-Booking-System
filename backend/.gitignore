@@ -1,0 +1,21 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+venv/
+env/
+.env
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Database
+*.sqlite3
+
+# test files
+reset_db.py
+test_conn.py
