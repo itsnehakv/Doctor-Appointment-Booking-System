@@ -20,166 +20,31 @@ import {
   Bone,
   Sparkles,
   Wind,
+  Dna
 } from "lucide-react";
 
 const servicesData = [
-  {
-    id: 1,
-    title: "Oncology",
-    description:
-      "Expert cancer diagnosis, chemotherapy guidance, and multidisciplinary tumour board consultations.",
-    category: "Medical",
-    icon: <ShieldPlus size={20} />,
-  },
-  {
-    id: 2,
-    title: "Gynaecology & Obstetrics",
-    description:
-      "Comprehensive women's health from routine check-ups to high-risk pregnancy and fertility treatments.",
-    category: "Surgical",
-    icon: <Scissors size={20} />,
-  },
-  {
-    id: 3,
-    title: "Cardiology",
-    description:
-      "Heart health consultations, ECG analysis, stress tests, and cardiac rehabilitation planning.",
-    category: "Medical",
-    icon: <HeartPulse size={20} />,
-  },
-  {
-    id: 4,
-    title: "Pulmonology",
-    description:
-      "Asthma, COPD, sleep apnoea, tuberculosis, and post-COVID respiratory recovery.",
-    category: "Medical",
-    icon: <Wind size={20} />,
-  },
-  {
-    id: 5,
-    title: "Gastroenterology",
-    description:
-      "Colonoscopy, endoscopy, liver disease, IBS, Crohn's, and digestive health consultations.",
-    category: "Surgical",
-    icon: <Stethoscope size={20} />,
-  },
-  {
-    id: 6,
-    title: "Ophthalmology",
-    description:
-      "Eye exams, cataract assessment, glaucoma, LASIK consultations, and retinal care.",
-    category: "Surgical",
-    icon: <Eye size={20} />,
-  },
-  {
-    id: 7,
-    title: "Paediatrics",
-    description:
-      "Child health check-ups, vaccinations, growth monitoring, and developmental assessments.",
-    category: "Paediatric",
-    icon: <Baby size={20} />,
-  },
-  {
-    id: 8,
-    title: "Dermatology",
-    description:
-      "Skin conditions, acne, psoriasis, hair loss, mole checks, and cosmetic dermatology.",
-    category: "Medical",
-    icon: <Microscope size={20} />,
-  },
-  {
-    id: 9,
-    title: "Pathology & Diagnostics",
-    description:
-      "Lab test booking, report interpretation, health screening packages, and second opinion.",
-    category: "Diagnostic",
-    icon: <FlaskConical size={20} />,
-  },
-  {
-    id: 10,
-    title: "Orthopedics",
-    description: "Bone, joint, muscle and sports injury treatment.",
-    category: "Surgical",
-    icon: <Bone size={20} />,
-  },
-  {
-    id: 11,
-    title: "Neurology",
-    description: "Brain and nervous system disorder treatment.",
-    category: "Medical",
-    icon: <Brain size={20} />,
-  },
-  {
-    id: 12,
-    title: "Urology",
-    description: "Kidney and urinary tract care treatments.",
-    category: "Surgical",
-    icon: <Droplets size={20} />,
-  },
-  {
-    id: 13,
-    title: "ENT",
-    description: "Ear, nose, throat and sinus treatments.",
-    category: "Medical",
-    icon: <Ear size={20} />,
-  },
-  {
-    id: 14,
-    title: "Endocrinology",
-    description: "Hormone disorders including diabetes and thyroid.",
-    category: "Medical",
-    icon: <Activity size={20} />,
-  },
-  {
-    id: 15,
-    title: "Nephrology",
-    description: "Kidney disease and dialysis management.",
-    category: "Medical",
-    icon: <FlaskConical size={20} />,
-  },
-  {
-    id: 16,
-    title: "Psychiatry",
-    description: "Mental health treatment, anxiety and depression care.",
-    category: "Medical",
-    icon: <UserRound size={20} />,
-  },
-  {
-    id: 17,
-    title: "Radiology",
-    description: "X-ray, MRI, CT scan and imaging services.",
-    category: "Diagnostic",
-    icon: <Scan size={20} />,
-  },
-  {
-    id: 18,
-    title: "Dentistry",
-    description: "Teeth cleaning, root canal and oral care treatments.",
-    category: "Diagnostic",
-    icon: <Smile size={20} />,
-  },
-  {
-    id: 19,
-    title: "General Medicine",
-    description: "Primary healthcare for common illnesses.",
-    category: "Medical",
-    icon: <Stethoscope size={20} />,
-  },
-  {
-    id: 20,
-    title: "Physiotherapy",
-    description: "Pain relief, rehabilitation and mobility recovery.",
-    category: "Paediatric",
-    icon: <Sparkles size={20} />,
-  },
-  {
-    id: 21,
-    title: "Emergency Medicine",
-    description:
-      "24/7 emergency care for trauma, accidents, and critical conditions.",
-    category: "Medical",
-    icon: <Activity size={20} />,
-  },
+  { id: 1, title: "Oncology", description: "Expert cancer diagnosis, chemotherapy guidance, and multidisciplinary tumour board consultations.", category: "Medical", icon: <ShieldPlus size={20} /> },
+  { id: 2, title: "Gynaecology & Obstetrics", description: "Comprehensive women's health from routine check-ups to high-risk pregnancy and fertility treatments.", category: "Surgical", icon: <Scissors size={20} /> },
+  { id: 3, title: "Cardiology", description: "Heart health consultations, ECG analysis, stress tests, and cardiac rehabilitation planning.", category: "Medical", icon: <HeartPulse size={20} /> },
+  { id: 4, title: "Pulmonology", description: "Asthma, COPD, sleep apnoea, tuberculosis, and post-COVID respiratory recovery.", category: "Medical", icon: <Wind size={20} /> },
+  { id: 5, title: "Gastroenterology", description: "Colonoscopy, endoscopy, liver disease, IBS, Crohn's, and digestive health consultations.", category: "Surgical", icon: <Stethoscope size={20} /> },
+  { id: 6, title: "Ophthalmology", description: "Eye exams, cataract assessment, glaucoma, LASIK consultations, and retinal care.", category: "Surgical", icon: <Eye size={20} /> },
+  { id: 7, title: "Paediatrics", description: "Child health check-ups, vaccinations, growth monitoring, and developmental assessments.", category: "Paediatric", icon: <Baby size={20} /> },
+  { id: 8, title: "Dermatology", description: "Skin conditions, acne, psoriasis, hair loss, mole checks, and cosmetic dermatology.", category: "Medical", icon: <Microscope size={20} /> },
+  { id: 9, title: "Pathology & Diagnostics", description: "Lab test booking, report interpretation, health screening packages, and second opinion.", category: "Diagnostic", icon: <FlaskConical size={20} /> },
+  { id: 10, title: "Orthopedics", description: "Bone, joint, muscle and sports injury treatment.", category: "Surgical", icon: <Bone size={20} /> },
+  { id: 11, title: "Neurology", description: "Brain and nervous system disorder treatment.", category: "Medical", icon: <Brain size={20} /> },
+  { id: 12, title: "Urology", description: "Kidney and urinary tract care treatments.", category: "Surgical", icon: <Droplets size={20} /> },
+  { id: 13, title: "ENT", description: "Ear, nose, throat and sinus treatments.", category: "Medical", icon: <Ear size={20} /> },
+  { id: 14, title: "Endocrinology", description: "Hormone disorders including diabetes and thyroid.", category: "Medical", icon: <Dna size={20} /> },
+  { id: 15, title: "Nephrology", description: "Kidney disease and dialysis management.", category: "Medical", icon: <FlaskConical size={20} /> },
+  { id: 16, title: "Psychiatry", description: "Mental health treatment, anxiety and depression care.", category: "Medical", icon: <UserRound size={20} /> },
+  { id: 17, title: "Radiology", description: "X-ray, MRI, CT scan and imaging services.", category: "Diagnostic", icon: <Scan size={20} /> },
+  { id: 18, title: "Dentistry", description: "Teeth cleaning, root canal and oral care treatments.", category: "Diagnostic", icon: <Smile size={20} /> },
+  { id: 19, title: "General Medicine", description: "Primary healthcare for common illnesses.", category: "Medical", icon: <Stethoscope size={20} /> },
+  { id: 20, title: "Physiotherapy", description: "Pain relief, rehabilitation and mobility recovery.", category: "Paediatric", icon: <Sparkles size={20} /> },
+  { id: 21, title: "Emergency Medicine", description: "24/7 emergency care for trauma, accidents, and critical conditions.", category: "Medical", icon: <Activity size={20} /> }
 ];
 
 const Services = () => {
@@ -189,7 +54,12 @@ const Services = () => {
 
   const categories = ["All", "Surgical", "Medical", "Paediatric", "Diagnostic"];
 
-  const filteredServices = servicesData.filter((service) => {
+  // ✅ SORT SERVICES A → Z
+  const sortedServices = [...servicesData].sort((a, b) =>
+    a.title.localeCompare(b.title)
+  );
+
+  const filteredServices = sortedServices.filter((service) => {
     const query = search.toLowerCase().trim();
     const matchesCategory = filter === "All" || service.category === filter;
     const matchesSearch =
@@ -199,6 +69,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-100 pt-28 pb-16 px-4 sm:px-6 lg:px-8">
+      
       {/* Header */}
       <div className="max-w-7xl mx-auto text-center mb-12">
         <p className="text-emerald-600 font-semibold mb-2 tracking-wide">
@@ -251,6 +122,7 @@ const Services = () => {
         ))}
       </div>
 
+      {/* Cards */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredServices.map((service) => (
           <div
@@ -265,10 +137,8 @@ const Services = () => {
                hover:-translate-y-3 hover:scale-[1.02]
                hover:shadow-[0_15px_40px_rgba(16,185,129,0.25)] group"
           >
-            <div
-              className="w-12 h-12 flex items-center justify-center rounded-lg
-                            bg-emerald-500 text-white mb-4 group-hover:scale-110 transition"
-            >
+            <div className="w-12 h-12 flex items-center justify-center rounded-lg
+                            bg-emerald-500 text-white mb-4 group-hover:scale-110 transition">
               {service.icon}
             </div>
 
