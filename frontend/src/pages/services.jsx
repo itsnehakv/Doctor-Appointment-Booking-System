@@ -51,7 +51,7 @@ const Services = () => {
 
   const categories = ["All", "Surgical", "Medical", "Paediatric", "Diagnostic"];
 
-  // ✅ STRICT 3-LETTER SEARCH ONLY (NO DESCRIPTION MATCH)
+  //  STRICT 3-LETTER SEARCH ONLY (NO DESCRIPTION MATCH)
   const filteredServices = servicesData.filter(service => {
     const query = search.toLowerCase().trim();
 

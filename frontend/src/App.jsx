@@ -4,11 +4,8 @@ import HomePage from "./pages/homepage";
 import AboutUs from "./pages/about-us";
 import Contact from "./pages/contact.jsx";
 import Footer from "./components/footer.jsx";
-import Category from"./pages/category.jsx";
 import Services from "./pages/services.jsx";
 
-
-// import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -20,9 +17,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
-                         <Route path="/services" element={<Services/>} />
-
-            <Route path="/services/category" element={<Category/>}/>
+            <Route path="/services" element={<Services />} />
           </Routes>
         </main>
         <Footer />
