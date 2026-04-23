@@ -18,7 +18,8 @@ import {
   UserRound,
   Bone,
   Sparkles,
-  Wind
+  Wind,
+  Dna   
 } from "lucide-react";
 
 const servicesData = [
@@ -35,7 +36,8 @@ const servicesData = [
   { id: 11, title: "Neurology", description: "Brain and nervous system disorder treatment.", category: "Medical", icon: <Brain size={20} /> },
   { id: 12, title: "Urology", description: "Kidney and urinary tract care treatments.", category: "Surgical", icon: <Droplets size={20} /> },
   { id: 13, title: "ENT", description: "Ear, nose, throat and sinus treatments.", category: "Medical", icon: <Ear size={20} /> },
-  { id: 14, title: "Endocrinology", description: "Hormone disorders including diabetes and thyroid.", category: "Medical", icon: <Activity size={20} /> },
+
+  { id: 14, title: "Endocrinology", description: "Hormone disorders including diabetes and thyroid.", category: "Medical", icon: <Dna size={20} /> },
   { id: 15, title: "Nephrology", description: "Kidney disease and dialysis management.", category: "Medical", icon: <FlaskConical size={20} /> },
   { id: 16, title: "Psychiatry", description: "Mental health treatment, anxiety and depression care.", category: "Medical", icon: <UserRound size={20} /> },
   { id: 17, title: "Radiology", description: "X-ray, MRI, CT scan and imaging services.", category: "Diagnostic", icon: <Scan size={20} /> },
@@ -51,8 +53,11 @@ const Services = () => {
 
   const categories = ["All", "Surgical", "Medical", "Paediatric", "Diagnostic"];
 
-  //  STRICT 3-LETTER SEARCH ONLY (NO DESCRIPTION MATCH)
-  const filteredServices = servicesData.filter(service => {
+  const sortedServices = [...servicesData].sort((a, b) =>
+    a.title.localeCompare(b.title)
+  );
+
+  const filteredServices = sortedServices.filter(service => {
     const query = search.toLowerCase().trim();
 
     const matchesCategory =
