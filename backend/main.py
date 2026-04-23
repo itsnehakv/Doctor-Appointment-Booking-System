@@ -105,57 +105,68 @@ def get_doctor_by_id(doctor_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Doctor not found")
     return doctor
 
+
 @app.get("/doctors/{doctor_id}/slots")
 def get_available_slots(
         doctor_id: int,
         booking_date: date,
-        duration: int = 20,  # Dynamic duration (minimum 20)
+        mode: str = Query("online", regex="^(online|offline)$"),
+        requested_duration: int = Query(20),  # User can now pass 50, 60, etc.
         db: Session = Depends(get_db)
 ):
-    if duration < 20:
-        raise HTTPException(status_code=400, detail="Minimum duration is 20 minutes.")
-
     doctor = db.query(models.Doctor).filter(models.Doctor.id == doctor_id).first()
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found")
 
-    # 1. Generate ALL possible 20-minute start points
-    all_possible_starts = []
-    start_time = datetime.combine(booking_date, datetime.min.time()).replace(hour=9)
-    end_time = datetime.combine(booking_date, datetime.min.time()).replace(hour=17)
+    # 1. Determine actual duration (User choice vs Mode Minimum)
+    # If it's offline, we might want a minimum of 40 even if they ask for 20
+    actual_duration = max(requested_duration, 40 if mode == "offline" else 20)
 
-    current = start_time
-    while current <= end_time:
-        all_possible_starts.append(current)
-        current += timedelta(minutes=20)
+    # 2. Setup Windows (Using Doctor's DB hours)
+    h_start, m_start = map(int, doctor.start_time.split(':'))
+    h_end, m_end = map(int, doctor.end_time.split(':'))
+    day_start = datetime.combine(booking_date, datetime.min.time()).replace(hour=h_start, minute=m_start)
+    day_end = datetime.combine(booking_date, datetime.min.time()).replace(hour=h_end, minute=m_end)
 
-    # 2. Get currently booked appointments
-    booked_appointments = db.query(models.Appointment).filter(
+    # 3. Get Booked Slots
+    booked = db.query(models.Appointment).filter(
         models.Appointment.doctor_id == doctor_id,
         models.Appointment.status == models.ApptStatus.BOOKED,
-        models.Appointment.appointment_time >= datetime.combine(booking_date, datetime.min.time()),
-        models.Appointment.appointment_time < datetime.combine(booking_date, datetime.max.time())
+        models.Appointment.appointment_time >= day_start,
+        models.Appointment.appointment_time < day_end
     ).all()
+    booked_times = [appt.appointment_time.replace(tzinfo=None, second=0, microsecond=0) for appt in booked]
 
-    booked_times = [appt.appointment_time.replace(tzinfo=None, second=0, microsecond=0) for appt in booked_appointments]
-
-    # 3. Filter starts: A start point is valid only if the FULL duration is free
+    # 4. The "Sliding Window" Check
     available_slots = []
-    for start in all_possible_starts:
-        # Check if any 20-min block within the 'duration' is already booked
-        is_free = True
-        for i in range(0, duration, 20):
-            check_time = start + timedelta(minutes=i)
-            if check_time in booked_times or check_time > end_time:
-                is_free = False
+    current = day_start
+
+    while current + timedelta(minutes=actual_duration) <= day_end:
+        # Check if EVERY 20-minute block within the requested duration is free
+        is_fully_free = True
+        for offset in range(0, actual_duration, 20):
+            check_point = current + timedelta(minutes=offset)
+            if check_point in booked_times:
+                is_fully_free = False
                 break
 
-        if is_free:
-            available_slots.append(start.strftime("%H:%M"))
+        if is_fully_free:
+            slot_time = current.strftime("%H:%M")
+            check_in = (current - timedelta(minutes=15)).strftime("%H:%M") if mode == "offline" else None
+
+            available_slots.append({
+                "time": slot_time,
+                "check_in": check_in,
+                "duration": actual_duration,
+                "label": f"{slot_time} ({actual_duration} mins)"
+            })
+
+        # Move to the next 20-minute start point
+        current += timedelta(minutes=20)
 
     return {
         "doctor_id": doctor_id,
-        "date": booking_date,
-        "duration_minutes": duration,
-        "available_slots": available_slots
+        "mode": mode,
+        "requested_duration": actual_duration,
+        "slots": available_slots
     }
