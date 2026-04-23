@@ -20,6 +20,7 @@ import {
   Bone,
   Sparkles,
   Wind,
+  Dna
 } from "lucide-react";
 
 const servicesData = [
@@ -53,7 +54,12 @@ const Services = () => {
 
   const categories = ["All", "Surgical", "Medical", "Paediatric", "Diagnostic"];
 
-  const filteredServices = servicesData.filter((service) => {
+  // ✅ SORT SERVICES A → Z
+  const sortedServices = [...servicesData].sort((a, b) =>
+    a.title.localeCompare(b.title)
+  );
+
+  const filteredServices = sortedServices.filter((service) => {
     const query = search.toLowerCase().trim();
     const matchesCategory = filter === "All" || service.category === filter;
     const matchesSearch =
@@ -63,6 +69,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-100 pt-28 pb-16 px-4 sm:px-6 lg:px-8">
+      
       {/* Header */}
       <div className="max-w-7xl mx-auto text-center mb-12">
         <p className="text-emerald-600 font-semibold mb-2 tracking-wide">
@@ -115,6 +122,7 @@ const Services = () => {
         ))}
       </div>
 
+      {/* Cards */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredServices.map((service) => (
           <div
@@ -129,10 +137,8 @@ const Services = () => {
                hover:-translate-y-3 hover:scale-[1.02]
                hover:shadow-[0_15px_40px_rgba(16,185,129,0.25)] group"
           >
-            <div
-              className="w-12 h-12 flex items-center justify-center rounded-lg
-                            bg-emerald-500 text-white mb-4 group-hover:scale-110 transition"
-            >
+            <div className="w-12 h-12 flex items-center justify-center rounded-lg
+                            bg-emerald-500 text-white mb-4 group-hover:scale-110 transition">
               {service.icon}
             </div>
 
