@@ -10,6 +10,13 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import Logo from "./components/logo.jsx";
 import DoctorsPage from "./pages/doctorspage.jsx";
 import DoctorDetails from "./pages/doctordetails.jsx";
+import AppointmentMode from "./pages/AppointmentMode.jsx";
+import OnlineBooking from "./pages/onlinebooking.jsx";
+import ScrollToTop from "./components/scrolltotop.jsx";
+import PaymentGate from "./pages/payment-gate.jsx";
+import BookingHistory from "./pages/bookinghistory.jsx";
+import ProtectedRoute from "./components/protectedroute.jsx";
+import OfflineBooking from "./pages/offlinebooking.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -34,7 +41,6 @@ function App() {
           headerSubtitle:
             "!text-slate-400 !font-semibold !tracking-widest !text-[10px] !mt-2",
 
-          // Form fields
           formFieldInput:
             "!border-2 !border-slate-100 !rounded-xl focus:!border-emerald-500 !h-12",
           formFieldLabel: "!text-slate-700 !font-bold",
@@ -42,6 +48,7 @@ function App() {
       }}
     >
       <Router>
+        <ScrollToTop />
         <div className="font-geist antialiased">
           <Navbar />
           <main>
@@ -54,6 +61,24 @@ function App() {
               <Route path="/services" element={<Services />} />
               <Route path="/doctors" element={<DoctorsPage />} />
               <Route path="/doctor/:id" element={<DoctorDetails />} />
+              <Route path="/mode/:doctorId" element={<AppointmentMode />} />
+              <Route
+                path="/book/online/:doctorId"
+                element={<OnlineBooking />}
+              />
+              <Route
+                path="/book/offline/:doctorId"
+                element={<OfflineBooking />}
+              />
+              <Route path="/payment-gate" element={<PaymentGate />} />
+              <Route
+                path="/my-appointments"
+                element={
+                  <ProtectedRoute>
+                    <BookingHistory />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </main>
           <Footer />
