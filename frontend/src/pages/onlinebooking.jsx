@@ -13,9 +13,6 @@ const OnlineBooking = () => {
   const { doctorId } = useParams();
   const navigate = useNavigate();
 
-  // const { order_id, amount } = response.data;
-  // navigate("/payment-gate", { state: { order_id, amount } });
-
   // --- STATE ---
   const [duration, setDuration] = useState(15);
   const [selectedDate, setSelectedDate] = useState(
@@ -87,7 +84,15 @@ const OnlineBooking = () => {
       const { order_id, amount } = response.data;
 
       // Navigate to the simulator we just built
-      navigate("/payment-gate", { state: { order_id, amount } });
+      navigate("/payment-gate", {
+        state: {
+          order_id,
+          amount,
+          doctor: { name: "Doctor" }, // Add doctor info
+          slot: { time: selectedSlot }, // Standardize slot format
+          mode: "online",
+        },
+      });
     } catch (err) {
       console.error("Payment initiation failed:", err);
       alert("Could not initiate payment. Please try again.");
