@@ -188,26 +188,25 @@ const BookingHistory = () => {
                         />
                       </Link>
                     </td>
-
                     <td className="px-8 py-6 text-center">
                       <div className="flex justify-center">
                         <span
                           className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${
-                            appt.type?.toLowerCase() === "online"
+                            (appt.mode || appt.type)?.toLowerCase() === "online"
                               ? "text-indigo-600 bg-indigo-50 border-indigo-100 shadow-sm shadow-indigo-100"
                               : "text-emerald-600 bg-emerald-50 border-emerald-100 shadow-sm shadow-emerald-100"
                           }`}
                         >
-                          {appt.type?.toLowerCase() === "online" ? (
+                          {(appt.mode || appt.type)?.toLowerCase() ===
+                          "online" ? (
                             <Video size={10} />
                           ) : (
                             <MapPin size={10} />
                           )}
-                          {appt.type}
+                          {appt.mode || appt.type || "OFFLINE"}
                         </span>
                       </div>
                     </td>
-
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-2 text-slate-600">
                         <Clock size={12} className="text-emerald-500" />
@@ -216,7 +215,6 @@ const BookingHistory = () => {
                         </span>
                       </div>
                     </td>
-
                     <td className="px-8 py-6 text-center">
                       <span
                         className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-tighter ${
@@ -228,7 +226,6 @@ const BookingHistory = () => {
                         {appt.status}
                       </span>
                     </td>
-
                     <td className="px-8 py-6 text-right">
                       {appt.status === "booked" ? (
                         <button
