@@ -30,8 +30,7 @@ const DoctorsPage = () => {
     filter === "All"
       ? doctors
       : doctors.filter(
-          (doc) =>
-            doc.specialization.toLowerCase() === filter.toLowerCase()
+          (doc) => doc.specialization.toLowerCase() === filter.toLowerCase()
         );
 
   if (loading)
@@ -43,10 +42,8 @@ const DoctorsPage = () => {
 
   return (
     <div className="relative w-full min-h-screen bg-slate-50 overflow-hidden">
-
       {/* 🔥 SAME BACKGROUND AS HOMEPAGE */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-
         {/* GRID */}
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -79,7 +76,6 @@ const DoctorsPage = () => {
 
       {/* CONTENT */}
       <div className="relative z-10 max-w-[1200px] mx-auto p-4 pt-40 pb-16">
-
         {/* HEADER */}
         <div className="mb-10 px-4">
           <h1 className="text-3xl font-black text-gray-900 tracking-tight uppercase border-l-6 border-emerald-500 pl-4">
@@ -110,22 +106,16 @@ const DoctorsPage = () => {
               <div className="w-full md:w-[250px] lg:w-[280px] aspect-[4/5] relative overflow-hidden bg-gray-100 shrink-0 z-10">
                 <img
                   src={
-                    doctor.image_url ||
-                    "https://via.placeholder.com/400x600"
+                    doctor.image_url || "https://via.placeholder.com/400x600"
                   }
                   alt={doctor.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
                 />
 
                 <div className="absolute top-4 left-4 flex items-center gap-1 bg-white px-3 py-1 rounded-full shadow">
-                  <Star
-                    className="text-yellow-500 fill-yellow-500"
-                    size={14}
-                  />
+                  <Star className="text-yellow-500 fill-yellow-500" size={14} />
                   <span className="text-sm font-bold text-gray-800">
-                    {doctor.rating
-                      ? doctor.rating.toFixed(1)
-                      : "0.0"}
+                    {doctor.rating ? doctor.rating.toFixed(1) : "0.0"}
                   </span>
                 </div>
               </div>
@@ -193,7 +183,13 @@ const DoctorsPage = () => {
 
                 {/* ACTIONS */}
                 <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <button className="bg-emerald-600 w-52 rounded-xl h-12 relative text-white text-[10px] font-bold uppercase border border-emerald-600 group overflow-hidden hover:bg-emerald-700">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevents the card's onClick from firing
+                      navigate(`/mode/${doctor.id}`);
+                    }}
+                    className="bg-emerald-600 w-52 rounded-xl h-12 relative text-white text-[10px] font-bold uppercase border border-emerald-600 group overflow-hidden hover:bg-emerald-700"
+                  >
                     <div className="bg-white/20 rounded-lg h-[44px] w-1/4 flex items-center justify-center absolute left-0 top-0 group-hover:w-full z-10 duration-500">
                       <Calendar size={18} className="text-white" />
                     </div>
@@ -202,7 +198,6 @@ const DoctorsPage = () => {
                       Book Appointment
                     </span>
                   </button>
-
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
