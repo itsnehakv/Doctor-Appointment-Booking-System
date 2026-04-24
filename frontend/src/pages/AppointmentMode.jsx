@@ -6,7 +6,6 @@ const AppointmentMode = () => {
   const { doctorId } = useParams();
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
-  const { doctorId } = useParams();
 
   return (
     <div className="relative w-full min-h-screen bg-slate-50 pt-28 pb-16 px-4 sm:px-6 lg:px-8">
