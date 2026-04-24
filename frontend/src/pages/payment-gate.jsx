@@ -89,6 +89,25 @@ const PaymentGate = () => {
               </span>
             </p>
           </div>
+          <div className="flex items-center justify-between gap-4 mb-6 px-2">
+            <div className="text-left">
+              <p className="text-[9px] font-black uppercase text-slate-400 tracking-tighter">
+                Consultation
+              </p>
+              <p className="text-sm font-bold text-slate-700 capitalize">
+                {state?.mode || "Medical"} Visit
+              </p>
+            </div>
+            <div className="h-8 w-px bg-slate-100" />
+            <div className="text-right">
+              <p className="text-[9px] font-black uppercase text-slate-400 tracking-tighter">
+                Time Slot
+              </p>
+              <p className="text-sm font-bold text-slate-700">
+                {state?.slot?.time || state?.slot || "--:--"}
+              </p>
+            </div>
+          </div>
 
           {/* PRICING DISPLAY */}
           <div className="bg-emerald-50/50 rounded-[2rem] p-8 mb-10 border border-emerald-100 shadow-inner">
