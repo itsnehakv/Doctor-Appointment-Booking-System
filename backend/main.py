@@ -23,7 +23,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], # Your React URL
+    allow_origins=origins, # Your React URL
     allow_credentials=True,
     allow_methods=["*"], # Allows GET, POST, PATCH, DELETE, etc.
     allow_headers=["*"], # Allows all headers
@@ -173,6 +173,7 @@ def get_available_slots(
 
 @app.post("/bookings/create-intent")
 async def create_intent(intent: schemas.BookingIntent, db: Session = Depends(get_db)):
+    print(f"DEBUG: Received intent mode: {intent.mode}")
     doctor = db.query(models.Doctor).filter(models.Doctor.id == intent.doctor_id).first()
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found")
@@ -234,7 +235,7 @@ async def confirm_booking(payload: dict, background_tasks: BackgroundTasks, db: 
         doctor_id=lock.doctor_id,
         patient_id=patient_id,
         appointment_time=lock.slot_time,
-        type=lock.type,
+        type=lock.type if lock.type else "offline",
         status=models.ApptStatus.BOOKED
     )
 
