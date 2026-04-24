@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Enum, Float
 from database import Base
 import enum
+from datetime import datetime, timezone
+from sqlalchemy.orm import Session
 
 # Enums help prevent "garbage data" in your DB
 class ApptStatus(enum.Enum):
@@ -35,3 +37,13 @@ class Appointment(Base):
     appointment_time = Column(DateTime, nullable=False)
     status = Column(Enum(ApptStatus), default=ApptStatus.BOOKED)
     type = Column(String(50)) # Online or Offline
+
+class PendingBooking(Base):
+    __tablename__ = "pending_bookings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    doctor_id = Column(Integer, ForeignKey("doctors.id"))
+    slot_time = Column(DateTime)
+    order_id = Column(String, unique=True)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    type = Column(String, default="online")

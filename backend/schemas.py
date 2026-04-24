@@ -52,3 +52,10 @@ class AppointmentResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class BookingIntent(BaseModel):
+    doctor_id: int
+    duration: int
+    date: str
+    slot: str
+    mode: str
