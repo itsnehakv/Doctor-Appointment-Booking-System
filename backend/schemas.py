@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional
 
@@ -59,3 +59,20 @@ class BookingIntent(BaseModel):
     date: str
     slot: str
     mode: str
+
+class InquiryCreate(BaseModel):
+    name: str
+    email: EmailStr  # This validates that it's a real email format
+    subject: Optional[str] = "General Inquiry"
+    message: str
+
+    class Config:
+        from_attributes = True
+
+class InquiryResponse(InquiryCreate):
+    id: int
+    created_at: datetime
+    is_resolved: bool
+
+    class Config:
+        from_attributes = True
