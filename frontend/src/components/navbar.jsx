@@ -7,6 +7,7 @@ import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 function Navbar() {
   const { user } = useUser();
   const isAdmin = user?.publicMetadata?.role === "admin";
+  const isDoctor = user?.publicMetadata?.role === "doctor";
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
@@ -67,15 +68,19 @@ function Navbar() {
           <NavLinkItem key={link.name} {...link} />
         ))}
 
-        {/* 🛡️ Only show for non-admin signed-in users */}
         <SignedIn>
-          {!isAdmin && (
+          {/*Only show "My Bookings" if user is NOT an admin AND NOT a doctor */}
+          {!isAdmin && !isDoctor && (
             <NavLinkItem name="My Bookings" path="/my-appointments" />
+          )}
+
+          {isDoctor && (
+            <NavLinkItem name="Doctor Portal" path="/doctor-dashboard" />
           )}
         </SignedIn>
       </div>
 
-      {/* Authentication Logic */}
+      {/* Authentication Logic (Desktop) */}
       <div className="hidden md:flex items-center gap-4 ml-10">
         <SignedOut>
           <GetStarted />
@@ -100,8 +105,15 @@ function Navbar() {
           ))}
 
           <SignedIn>
-            {!isAdmin && (
+            {!isAdmin && !isDoctor && (
               <NavLinkItem name="My Bookings" path="/my-appointments" mobile />
+            )}
+            {isDoctor && (
+              <NavLinkItem
+                name="Doctor Portal"
+                path="/doctor-dashboard"
+                mobile
+              />
             )}
           </SignedIn>
 
