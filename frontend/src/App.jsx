@@ -17,6 +17,7 @@ import PaymentGate from "./pages/payment-gate.jsx";
 import BookingHistory from "./pages/bookinghistory.jsx";
 import ProtectedRoute from "./components/protectedroute.jsx";
 import OfflineBooking from "./pages/offlinebooking.jsx";
+import AdminPanel from "./pages/adminpanel.jsx";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -79,6 +80,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/admin" element={<AdminPanel />} />
             </Routes>
           </main>
           <Footer />
