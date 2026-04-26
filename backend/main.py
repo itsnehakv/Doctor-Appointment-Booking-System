@@ -96,6 +96,7 @@ def book_appointment(appt: schemas.AppointmentCreate, db: Session = Depends(get_
     new_appt = models.Appointment(
         doctor_id=appt.doctor_id,
         patient_id=appt.patient_id,
+        patient_name=appt.patient_name,
         appointment_time=standard_time,
         type=appt.type,
         status=models.ApptStatus.BOOKED # <--- Enum Reference
@@ -235,7 +236,8 @@ async def create_intent(intent: schemas.BookingIntent, db: Session = Depends(get
 async def confirm_booking(payload: dict, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     order_id = payload.get("order_id")
     patient_id = payload.get("patient_id")
-    email = payload.get("email") # 🟢 Ensure React sends this!
+    patient_name = payload.get("patient_name")
+    email = payload.get("email")
 
     lock = db.query(models.PendingBooking).filter(models.PendingBooking.order_id == order_id).first()
     if not lock:
@@ -246,6 +248,7 @@ async def confirm_booking(payload: dict, background_tasks: BackgroundTasks, db: 
     new_appt = models.Appointment(
         doctor_id=lock.doctor_id,
         patient_id=patient_id,
+        patient_name=patient_name,
         appointment_time=lock.slot_time,
         type=lock.type if lock.type else "offline",
         status=models.ApptStatus.BOOKED
