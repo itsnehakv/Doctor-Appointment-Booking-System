@@ -292,6 +292,12 @@ def get_my_detailed_appointments(patient_id: str, db: Session = Depends(get_db))
         })
     return report
 
+@app.get("/doctors/{doctor_id}", response_model=schemas.DoctorResponse)
+def get_doctor_by_id(doctor_id: int, db: Session = Depends(get_db)):
+    doctor = db.query(models.Doctor).filter(models.Doctor.id == doctor_id).first()
+    if not doctor:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+    return doctor
 
 async def send_appointment_email(
         email: str,
