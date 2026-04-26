@@ -21,11 +21,12 @@ const DoctorDetails = () => {
 
   // 🟢 Track Auth Status
   const { isSignedIn } = useUser();
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/doctors/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/doctors/${id}`);
         setDoctor(response.data);
         setLoading(false);
       } catch (error) {

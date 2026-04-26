@@ -31,10 +31,13 @@ const PaymentGate = () => {
       return;
     }
 
+    const API_BASE_URL =
+      import.meta.env.VITE_API_URL || "http://localhost:8000";
+
     setStatus("processing");
     try {
       const userEmail = user.primaryEmailAddress?.emailAddress;
-      await axios.post("http://localhost:8000/bookings/confirm", {
+      await axios.post(`${API_BASE_URL}/bookings/confirm`, {
         order_id: orderId,
         patient_id: user.id,
         patient_name: user.fullName,

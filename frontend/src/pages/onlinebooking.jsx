@@ -25,12 +25,12 @@ const OnlineBooking = () => {
   // --- PRICING LOGIC ---
   const [doctorFee, setDoctorFee] = useState(0);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/doctors/${doctorId}`
-        );
+        const response = await axios.get(`${API_BASE_URL}/doctors/${doctorId}`);
         setDoctorFee(response.data.fees); // Store the base fee from your DB
       } catch (err) {
         console.error("Could not fetch doctor fees", err);
@@ -50,7 +50,7 @@ const OnlineBooking = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:8000/doctors/${doctorId}/slots?booking_date=${selectedDate}&mode=online&requested_duration=${duration}`
+          `${API_BASE_URL}/doctors/${doctorId}/slots?booking_date=${selectedDate}&mode=online&requested_duration=${duration}`
         );
         setSlots(response.data.slots);
       } catch (err) {
@@ -69,7 +69,7 @@ const OnlineBooking = () => {
   const handlePaymentInitiation = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/bookings/create-intent",
+        `${API_BASE_URL}/bookings/create-intent`,
         {
           doctor_id: doctorId,
           duration: duration,

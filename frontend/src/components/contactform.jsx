@@ -10,13 +10,12 @@ export function ContactForm() {
     message: "",
   });
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents page reload
     try {
-      const response = await axios.post(
-        "http://localhost:8000/contact",
-        formData
-      );
+      const response = await axios.post(`${API_BASE_URL}/contact`, formData);
       if (response.status === 200) {
         setFormData({
           name: "",

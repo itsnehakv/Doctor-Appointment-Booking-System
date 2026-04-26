@@ -27,13 +27,13 @@ const OfflineBooking = () => {
   const [doctor, setDoctor] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   // --- FETCH DOCTOR DETAILS ---
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/doctors/${doctorId}`
-        );
+        const response = await axios.get(`${API_BASE_URL}/doctors/${doctorId}`);
         setDoctor(response.data);
       } catch (err) {
         console.error("Error fetching doctor details:", err);
@@ -49,7 +49,7 @@ const OfflineBooking = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:8000/doctors/${doctorId}/slots?booking_date=${selectedDate}&mode=offline&requested_duration=${duration}`
+          `${API_BASE_URL}/doctors/${doctorId}/slots?booking_date=${selectedDate}&mode=offline&requested_duration=${duration}`
         );
         setSlots(response.data.slots);
       } catch (err) {
@@ -78,7 +78,7 @@ const OfflineBooking = () => {
     setIsProcessing(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/bookings/create-intent",
+        `${API_BASE_URL}/bookings/create-intent`,
         {
           doctor_id: doctorId,
           duration: duration,

@@ -22,9 +22,11 @@ export default function AdminPanel() {
     "x-user-email": user?.primaryEmailAddress?.emailAddress,
   };
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   const fetchDoctors = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/admin/doctors", {
+      const res = await axios.get(`${API_BASE_URL}/admin/doctors`, {
         headers: adminHeaders,
       });
       setDoctors(res.data);
@@ -35,7 +37,7 @@ export default function AdminPanel() {
 
   const fetchInquiries = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/admin/inquiries", {
+      const res = await axios.get(`${API_BASE_URL}/admin/inquiries`, {
         headers: adminHeaders,
       });
       setInquiries(res.data);
@@ -75,7 +77,7 @@ export default function AdminPanel() {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:8000/admin/doctors/${id}`, {
+        await axios.delete(`${API_BASE_URL}/admin/doctors/${id}`, {
           headers: adminHeaders,
         });
         Swal.fire({
@@ -101,7 +103,7 @@ export default function AdminPanel() {
   const resolveInquiry = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:8000/admin/inquiries/${id}/resolve`,
+        `${API_BASE_URL}/admin/inquiries/${id}/resolve`,
         {},
         { headers: adminHeaders }
       );

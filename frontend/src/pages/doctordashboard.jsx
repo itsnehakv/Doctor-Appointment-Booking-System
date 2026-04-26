@@ -23,14 +23,13 @@ export default function DoctorDashboard() {
     "x-user-email": user?.primaryEmailAddress?.emailAddress,
   };
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   const fetchDashboard = async (id) => {
     try {
-      const res = await axios.get(
-        `http://localhost:8000/doctor/me?doctor_id=${id}`,
-        {
-          headers: doctorHeaders,
-        }
-      );
+      const res = await axios.get(`${API_BASE_URL}/doctor/me?doctor_id=${id}`, {
+        headers: doctorHeaders,
+      });
       setData(res.data);
       setLoading(false);
     } catch (err) {
@@ -44,7 +43,7 @@ export default function DoctorDashboard() {
       if (user?.primaryEmailAddress?.emailAddress) {
         try {
           const res = await axios.get(
-            `http://localhost:8000/doctor/id-lookup?email=${user.primaryEmailAddress.emailAddress}`
+            `${API_BASE_URL}/doctor/id-lookup?email=${user.primaryEmailAddress.emailAddress}`
           );
           setDoctorId(res.data.doctor_id);
           fetchDashboard(res.data.doctor_id);
@@ -60,7 +59,7 @@ export default function DoctorDashboard() {
   const toggleStatus = async () => {
     try {
       await axios.patch(
-        `http://localhost:8000/doctor/status?doctor_id=${doctorId}`,
+        `${API_BASE_URL}/doctor/status?doctor_id=${doctorId}`,
         {},
         { headers: doctorHeaders }
       );

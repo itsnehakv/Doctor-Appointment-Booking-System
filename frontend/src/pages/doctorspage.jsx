@@ -22,10 +22,12 @@ const DoctorsPage = () => {
     }
   }, [isSignedIn, isLoaded, pendingDocId, navigate]);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/doctors");
+        const response = await axios.get(`${API_BASE_URL}/doctors`);
         setDoctors(response.data);
         setLoading(false);
       } catch (error) {

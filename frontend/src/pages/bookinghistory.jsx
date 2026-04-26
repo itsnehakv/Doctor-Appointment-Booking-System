@@ -18,11 +18,13 @@ const BookingHistory = () => {
   const { user } = useUser();
   const [appointments, setAppointments] = useState([]);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   useEffect(() => {
     if (user) {
       setLoading(true);
       axios
-        .get(`http://localhost:8000/appointments/me?patient_id=${user.id}`)
+        .get(`${API_BASE_URL}/appointments/me?patient_id=${user.id}`)
         .then((res) => {
           setAppointments(res.data);
           setLoading(false); // 🟢 Stop loading
@@ -48,7 +50,7 @@ const BookingHistory = () => {
 
     const userEmail = user.primaryEmailAddress?.emailAddress;
     await axios.patch(
-      `http://localhost:8000/appointments/${id}/cancel?patient_id=${user.id}&email=${userEmail}`
+      `${API_BASE_URL}/appointments/${id}/cancel?patient_id=${user.id}&email=${userEmail}`
     );
 
     Swal.fire({
@@ -75,7 +77,7 @@ const BookingHistory = () => {
       if (result.isConfirmed) {
         try {
           await axios.patch(
-            `http://localhost:8000/appointments/${id}/cancel?patient_id=${user.id}`
+            `${API_BASE_URL}/appointments/${id}/cancel?patient_id=${user.id}`
           );
 
           setAppointments((prev) =>
