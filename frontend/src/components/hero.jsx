@@ -1,12 +1,11 @@
 import img from "../assets/doctor-hero.jpg";
+import { Star } from "lucide-react";
 
 const Hero = () => {
   return (
     <section className="relative w-full bg-transparent px-4 pb-16 pt-8">
-      
       {/* --- BACKGROUND --- */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -28,10 +27,8 @@ const Hero = () => {
       </div>
 
       <div className="relative z-10 w-full md:px-16 lg:px-24 xl:px-32 mx-auto flex flex-col md:flex-row items-center justify-between gap-12 py-16">
-        
         {/* LEFT */}
         <div className="flex flex-col items-start w-full md:w-[55%]">
-          
           <div className="relative inline-flex items-center gap-2.5 bg-white/80 backdrop-blur-md border border-slate-200 rounded-full pl-1.5 pr-4 py-1.5 text-sm shadow-sm">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -54,33 +51,58 @@ const Hero = () => {
             Fast, seamless healthcare.
           </p>
 
-          {/* Search */}
-          <div className="flex items-center border border-slate-200 bg-white h-16 w-full rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden mt-10 focus-within:ring-2 focus-within:ring-emerald-200 transition-all">
-            <div className="flex items-center flex-1 h-full border-r border-slate-100 pl-6">
-              <svg className="size-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <input
-                type="text"
-                placeholder="Doctor name, specialization..."
-                className="w-full h-full pl-3 outline-none text-base bg-transparent text-slate-900 placeholder:text-slate-400"
-              />
+          {/* --- MINIMALIST STATS ROW --- */}
+          <div className="flex flex-row items-center gap-8 md:gap-12 mt-10 mb-8 w-full">
+            {/* Specialists Stat */}
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1">
+                <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter">
+                  500<span className="text-emerald-500">+</span>
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em] mt-1">
+                Specialists
+              </p>
             </div>
 
-            <button className="bg-emerald-600 hover:bg-emerald-700 h-full px-8 text-base font-semibold text-white transition flex items-center gap-2">
-              Search
-              <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </button>
+            {/* Vertical Divider */}
+            <div className="w-px h-10 bg-slate-200/80" />
+
+            {/* Consultations Stat */}
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter">
+                  15K<span className="text-emerald-500">+</span>
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em] mt-1">
+                Consultations
+              </p>
+            </div>
+
+            {/* Vertical Divider */}
+            <div className="w-px h-10 bg-slate-200/80" />
+
+            {/* Rating Stat */}
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1">
+                <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter">
+                  4.9
+                </span>
+                <Star
+                  size={16}
+                  className="text-yellow-400 fill-yellow-400 mb-1"
+                />
+              </div>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.15em] mt-1">
+                Avg Rating
+              </p>
+            </div>
           </div>
         </div>
 
         {/* RIGHT IMAGE */}
         <div className="w-full max-w-md md:max-w-lg mx-auto relative group flex justify-center items-center">
-          
           {/* Glow */}
           <div className="absolute inset-0 bg-emerald-400/20 blur-[60px] rounded-full scale-75 group-hover:scale-90 transition-transform duration-500" />
 
@@ -89,7 +111,9 @@ const Hero = () => {
             <div className="flex items-center gap-2">
               <div className="flex">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <span key={star} className="text-yellow-400 text-xs">★</span>
+                  <span key={star} className="text-yellow-400 text-xs">
+                    ★
+                  </span>
                 ))}
               </div>
               <span className="text-slate-900 font-bold text-sm">4.9/5</span>
@@ -116,7 +140,6 @@ const Hero = () => {
             className="w-[90%] h-auto rounded-[2.5rem] shadow-2xl relative z-10 border-8 border-white object-cover aspect-[4/5]"
           />
         </div>
-
       </div>
     </section>
   );
