@@ -140,50 +140,106 @@ export default function DoctorDashboard() {
           </div>
 
           <div className="grid gap-4">
-            {data.appointments.map((appt) => (
-              <div
-                key={appt.id}
-                className="group bg-white border border-slate-100 p-6 rounded-[2.5rem] flex flex-col md:flex-row justify-between items-center hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300"
-              >
-                <div className="flex items-center gap-5 w-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl flex items-center justify-center text-slate-400 group-hover:from-emerald-50 group-hover:to-emerald-100 group-hover:text-emerald-600 transition-colors">
-                    <User size={28} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-black text-slate-800 text-lg">
-                      {appt.patient_name || "New Patient"}
-                    </p>
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 mt-1">
-                      <span className="flex items-center gap-1.5 font-bold">
-                        <Clock size={14} className="text-emerald-500" />
-                        {new Date(appt.appointment_time).toLocaleTimeString(
-                          [],
-                          { hour: "2-digit", minute: "2-digit" }
+            {data.appointments.map((appt) => {
+              // Logic to check if the appointment time has passed
+              const appointmentDate = new Date(appt.appointment_time);
+              const isExpired = appointmentDate < new Date();
+
+              return (
+                <div
+                  key={appt.id}
+                  className={`group border p-6 rounded-[2.5rem] flex flex-col md:flex-row justify-between items-center transition-all duration-300 ${
+                    isExpired
+                      ? "bg-slate-50 border-slate-100 opacity-60 grayscale-[0.5]"
+                      : "bg-white border-slate-100 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-500/5"
+                  }`}
+                >
+                  <div className="flex items-center gap-5 w-full">
+                    <div
+                      className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors ${
+                        isExpired
+                          ? "bg-slate-200 text-slate-400"
+                          : "bg-gradient-to-br from-slate-50 to-slate-100 text-slate-400 group-hover:from-emerald-50 group-hover:to-emerald-100 group-hover:text-emerald-600"
+                      }`}
+                    >
+                      <User size={28} />
+                    </div>
+
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <p className="font-black text-slate-800 text-lg">
+                          {appt.patient_name || "New Patient"}
+                        </p>
+                        {isExpired && (
+                          <span className="text-[9px] font-black bg-slate-200 text-slate-500 px-2 py-0.5 rounded-md tracking-widest uppercase">
+                            Expired
+                          </span>
                         )}
-                      </span>
-                      <span
-                        className={`uppercase font-black text-[9px] px-3 py-1 rounded-lg ${
-                          appt.type === "online"
-                            ? "bg-blue-50 text-blue-600"
-                            : "bg-orange-50 text-orange-600"
-                        }`}
-                      >
-                        {appt.type}
-                      </span>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 mt-1">
+                        {/* Date and Time Display */}
+                        <span className="flex items-center gap-1.5 font-bold">
+                          <Calendar
+                            size={14}
+                            className={
+                              isExpired ? "text-slate-400" : "text-emerald-500"
+                            }
+                          />
+                          {appointmentDate.toLocaleDateString([], {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+
+                        <span className="flex items-center gap-1.5 font-bold">
+                          <Clock
+                            size={14}
+                            className={
+                              isExpired ? "text-slate-400" : "text-emerald-500"
+                            }
+                          />
+                          {appointmentDate.toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+
+                        <span
+                          className={`uppercase font-black text-[9px] px-3 py-1 rounded-lg ${
+                            isExpired
+                              ? "bg-slate-200 text-slate-500"
+                              : appt.type === "online"
+                              ? "bg-blue-50 text-blue-600"
+                              : "bg-orange-50 text-orange-600"
+                          }`}
+                        >
+                          {appt.type}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {appt.type === "online" && (
-                  <button
-                    onClick={() => window.open("/meeting-room", "_blank")}
-                    className="mt-4 md:mt-0 w-full md:w-auto bg-slate-400 hover:bg-emerald-600 text-white px-8 py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 text-sm font-black shadow-lg hover:shadow-emerald-500/40"
-                  >
-                    <Video size={18} /> Enter Room
-                  </button>
-                )}
-              </div>
-            ))}
+                  {appt.type === "online" && (
+                    <button
+                      disabled={isExpired}
+                      onClick={() =>
+                        !isExpired && window.open("/meeting-room", "_blank")
+                      }
+                      className={`mt-4 md:mt-0 w-full md:w-auto px-8 py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 text-sm font-black shadow-lg ${
+                        isExpired
+                          ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
+                          : "bg-slate-800 hover:bg-emerald-600 text-white hover:shadow-emerald-500/40"
+                      }`}
+                    >
+                      <Video size={18} />
+                      {isExpired ? "Closed" : "Enter Room"}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
 
             {data.appointments.length === 0 && (
               <div className="text-center py-24 bg-white rounded-[3rem] border border-dashed border-slate-200">
