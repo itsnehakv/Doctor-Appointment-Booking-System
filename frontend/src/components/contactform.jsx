@@ -10,7 +10,6 @@ export function ContactForm() {
     message: "",
   });
 
-  // 2. Submit Handler
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents page reload
     try {
@@ -43,7 +42,6 @@ export function ContactForm() {
           </h3>
         </div>
 
-        {/* 3. Add onSubmit and value/onChange to inputs */}
         <form className="space-y-8" onSubmit={handleSubmit}>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-3">
