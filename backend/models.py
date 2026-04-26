@@ -35,6 +35,7 @@ class Appointment(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(String(255), index=True) # This will be the Clerk User ID
+    patient_name = Column(String(255)) # From Clerk
     doctor_id = Column(Integer, ForeignKey("doctors.id"))
     appointment_time = Column(DateTime, nullable=False)
     status = Column(Enum(ApptStatus), default=ApptStatus.BOOKED)
