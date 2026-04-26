@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
   MapPin,
-  Navigation,
   ArrowLeft,
   CheckCircle2,
   Building2,
   Clock,
+  Calendar as CalendarIcon,
   CreditCard,
+  MapPinned,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -15,77 +16,101 @@ const OfflineBooking = () => {
   const { doctorId } = useParams();
   const navigate = useNavigate();
 
-  const [doctor, setDoctor] = useState(null);
-  const [slots, setSlots] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // --- STATE ---
+  const [duration, setDuration] = useState(30); // Default 30 for offline
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [slots, setSlots] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [doctor, setDoctor] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // --- FETCH DOCTOR DETAILS ---
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDoctor = async () => {
       try {
-        const docRes = await axios.get(
+        const response = await axios.get(
           `http://localhost:8000/doctors/${doctorId}`
         );
-        setDoctor(docRes.data);
-
-        const today = new Date().toISOString().split("T")[0];
-        const slotRes = await axios.get(
-          `http://localhost:8000/doctors/${doctorId}/slots?mode=offline&booking_date=${today}`
-        );
-        setSlots(slotRes.data.slots);
+        setDoctor(response.data);
       } catch (err) {
-        console.error("Failed to fetch data", err);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching doctor details:", err);
       }
     };
-    fetchData();
+    fetchDoctor();
   }, [doctorId]);
 
-  const handlePaymentIntent = async () => {
+  // --- FETCH SLOTS ---
+  useEffect(() => {
+    if (!doctorId) return;
+    const fetchSlots = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/doctors/${doctorId}/slots?booking_date=${selectedDate}&mode=offline&requested_duration=${duration}`
+        );
+        setSlots(response.data.slots);
+      } catch (err) {
+        console.error("Error fetching slots:", err);
+      }
+      setLoading(false);
+    };
+    fetchSlots();
+  }, [doctorId, selectedDate, duration]);
+
+  // Reset selection on filter change
+  useEffect(() => {
+    setSelectedSlot(null);
+  }, [duration, selectedDate]);
+
+  // --- PRICING LOGIC ---
+  const calculateFee = () => {
+    if (!doctor) return 0;
+    const multipliers = { 15: 1.0, 30: 1.0, 45: 1.5, 60: 2.0 };
+    const multiplier = multipliers[duration] || 1.0;
+    return doctor.fees * multiplier;
+  };
+
+  const handlePaymentInitiation = async () => {
     if (!selectedSlot) return;
     setIsProcessing(true);
-
     try {
-      const today = new Date().toISOString().split("T")[0];
-      const res = await axios.post(
+      const response = await axios.post(
         "http://localhost:8000/bookings/create-intent",
         {
-          doctor_id: parseInt(doctorId),
+          doctor_id: doctorId,
+          duration: duration,
+          date: selectedDate,
           slot: selectedSlot.time,
-          date: today,
-          duration: selectedSlot.duration,
           mode: "offline",
+          amount: calculateFee(),
         }
       );
 
+      const { order_id, amount } = response.data;
+
       navigate("/payment-gate", {
         state: {
-          order_id: res.data.order_id,
-          amount: doctor?.fees,
-          slot: selectedSlot,
+          order_id,
+          amount,
           doctor: doctor,
+          slot: selectedSlot,
           mode: "offline",
         },
       });
     } catch (err) {
-      alert(err.response?.data?.detail || "Slot is no longer available.");
+      console.error("Booking initiation failed:", err);
+      alert(err.response?.data?.detail || "Could not initiate booking.");
     } finally {
       setIsProcessing(false);
     }
   };
 
-  if (loading)
-    return (
-      <div className="text-center mt-40 text-slate-500 animate-pulse">
-        Initializing Clinic Link...
-      </div>
-    );
-
   return (
     <div className="relative w-full min-h-screen bg-slate-50 pt-28 pb-16 px-4">
-      {/* BACKGROUND DECO */}
+      {/* MESH BACKGROUND */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div
           className="absolute inset-0 opacity-[0.15]"
@@ -98,7 +123,6 @@ const OfflineBooking = () => {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto">
-        {/* BACK BUTTON */}
         <button
           onClick={() => navigate(-1)}
           className="group flex items-center gap-3 text-emerald-700 font-bold uppercase text-[10px] tracking-[0.2em] mb-8 bg-white/80 backdrop-blur-sm px-5 py-2.5 rounded-full border border-emerald-100 hover:bg-emerald-600 hover:text-white transition-all shadow-sm"
@@ -110,42 +134,38 @@ const OfflineBooking = () => {
           Back
         </button>
 
-        {/* MAIN CARD */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-[3rem] p-8 md:p-14 border-[1px] border-white shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
-          {/* HEADER SECTION */}
+        <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-14 border-[3px] border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.2)]">
+          {/* HEADER */}
           <div className="mb-10">
             <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest mb-4 border border-emerald-100">
-              Offline/In-Person Consultation
+              <MapPinned size={10} /> In-Person Visit
             </div>
-            <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-6">
-              Confirm visit with
-              <span className="text-emerald-600">{doctor?.name}</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+              Visit{" "}
+              <span className="text-emerald-600 font-extrabold">
+                {doctor?.name}
+              </span>
             </h2>
 
-            {/* 🟢 NEW: HOSPITAL & ADDRESS CARD */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-slate-50/50 border border-slate-100 p-6 rounded-3xl flex items-start gap-4">
-                <div className="bg-white p-3 rounded-2xl shadow-sm text-emerald-600">
-                  <Building2 size={20} />
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+              <div className="bg-slate-50/50 border border-slate-100 p-4 rounded-2xl flex items-center gap-3">
+                <Building2 size={18} className="text-emerald-600" />
                 <div>
-                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">
-                    Clinic / Hospital
+                  <p className="text-[9px] font-black uppercase text-slate-400">
+                    Clinic
                   </p>
-                  <p className="font-bold text-slate-800">
-                    {doctor?.hospital_name || "InstantMD General Center"}
+                  <p className="text-sm font-bold text-slate-800">
+                    {doctor?.hospital_name}
                   </p>
                 </div>
               </div>
-              <div className="bg-slate-50/50 border border-slate-100 p-6 rounded-3xl flex items-start gap-4">
-                <div className="bg-white p-3 rounded-2xl shadow-sm text-rose-500">
-                  <MapPin size={20} />
-                </div>
+              <div className="bg-slate-50/50 border border-slate-100 p-4 rounded-2xl flex items-center gap-3">
+                <MapPin size={18} className="text-rose-500" />
                 <div>
-                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">
-                    Address
+                  <p className="text-[9px] font-black uppercase text-slate-400">
+                    Location
                   </p>
-                  <p className="font-bold text-slate-800 text-sm leading-relaxed">
+                  <p className="text-sm font-bold text-slate-800 truncate w-40">
                     {doctor?.address}
                   </p>
                 </div>
@@ -153,88 +173,78 @@ const OfflineBooking = () => {
             </div>
           </div>
 
-          {/* SLOT SELECTION */}
-          <div className="space-y-6 mt-10">
-            <div className="flex justify-between items-end">
-              <label className="text-slate-500 font-black tracking-widest text-[10px] uppercase">
-                Select Your Time
+          {/*  DATE & SLOTS */}
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+              <label className="flex items-center gap-2 text-slate-500 font-bold tracking-widest text-[10px] uppercase">
+                <CalendarIcon size={12} /> Choose Date & Time
               </label>
-              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
-                Today's Available Slots
-              </span>
+              <input
+                type="date"
+                value={selectedDate}
+                min={new Date().toISOString().split("T")[0]}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-bold text-slate-700 outline-none focus:border-emerald-500 transition-all cursor-pointer"
+              />
             </div>
 
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-              {slots.length > 0 ? (
-                slots.map((slot) => (
-                  <button
-                    key={slot.time}
-                    onClick={() => setSelectedSlot(slot)}
-                    className={`py-4 rounded-2xl border-2 font-black transition-all duration-300 ${
-                      selectedSlot?.time === slot.time
-                        ? "border-emerald-500 bg-emerald-600 text-white shadow-lg shadow-emerald-200 scale-[1.02]"
-                        : "border-slate-100 bg-white text-slate-500 hover:border-emerald-200 hover:text-emerald-600"
-                    }`}
-                  >
-                    {slot.time}
-                  </button>
-                ))
-              ) : (
-                <div className="col-span-full py-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-                  <p className="text-slate-400 text-xs font-medium italic">
-                    No physical consultation slots available today.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* SELECTION FOOTER */}
-          {selectedSlot && (
-            <div className="mt-12 p-8 bg-emerald-600 rounded-[2.5rem] text-white flex flex-col md:flex-row items-center justify-between gap-8 animate-in fade-in slide-in-from-bottom-6 shadow-xl shadow-emerald-200/50">
-              <div className="flex gap-8">
-                {/* CHECK-IN SECTION */}
-                <div className="flex flex-col">
-                  <p className="text-[10px] font-black uppercase text-emerald-100 tracking-widest mb-2">
-                    Check-in By
-                  </p>
-                  <div className="flex items-center gap-2 text-white">
-                    <Clock size={18} className="text-emerald-200" />
-                    <p className="text-2xl font-black">
-                      {selectedSlot.check_in}
+            {loading ? (
+              <div className="py-20 text-center animate-pulse text-emerald-600 font-bold uppercase text-[9px] tracking-[0.3em]">
+                Fetching Available Slots...
+              </div>
+            ) : (
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                {slots.length > 0 ? (
+                  slots.map((slot) => (
+                    <button
+                      key={slot.time}
+                      onClick={() => setSelectedSlot(slot)}
+                      className={`py-3 rounded-xl border font-bold transition-all ${
+                        selectedSlot?.time === slot.time
+                          ? "border-emerald-500 bg-emerald-600 text-white"
+                          : "border-slate-100 bg-white text-slate-600 hover:border-emerald-200"
+                      }`}
+                    >
+                      {slot.time}
+                    </button>
+                  ))
+                ) : (
+                  <div className="col-span-full py-12 text-center bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
+                    <p className="text-slate-400 text-xs font-medium italic">
+                      No available slots for this selection.
                     </p>
                   </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {selectedSlot && (
+            <div className="mt-10 pt-8 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 animate-in fade-in slide-in-from-bottom-4">
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+                  <CheckCircle2 size={24} />
                 </div>
-
-                {/* DIVIDER */}
-                <div className="w-px h-12 bg-white/20 hidden md:block" />
-
-                {/* FEE SECTION */}
-                <div className="flex flex-col">
-                  <p className="text-[10px] font-black uppercase text-emerald-100 tracking-widest mb-2">
-                    Consultation Fee
+                <div>
+                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">
+                    Check-in at {selectedSlot.check_in}
                   </p>
-                  <p className="text-2xl font-black text-white">
-                    ₹{doctor?.fees}
+                  <p className="text-3xl font-black text-slate-900">
+                    ₹{calculateFee()}
                   </p>
                 </div>
               </div>
 
-              {/* PAYMENT BUTTON */}
               <button
-                onClick={handlePaymentIntent}
+                onClick={handlePaymentInitiation}
                 disabled={isProcessing}
-                className={`w-full md:w-auto px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] transition-all flex items-center justify-center gap-3 shadow-lg ${
-                  isProcessing
-                    ? "bg-emerald-700 cursor-not-allowed opacity-50"
-                    : "bg-white text-emerald-700 hover:bg-emerald-50 hover:scale-105 active:scale-95"
-                }`}
+                className="w-full md:w-auto bg-emerald-600 text-white px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-emerald-100"
               >
                 {isProcessing ? (
                   "Processing..."
                 ) : (
                   <>
-                    <CreditCard size={18} /> Pay & Confirm
+                    <CreditCard size={18} /> Confirm & Pay
                   </>
                 )}
               </button>
