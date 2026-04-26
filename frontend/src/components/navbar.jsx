@@ -5,6 +5,9 @@ import Logo from "./logo.jsx";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 
 function Navbar() {
+  const { user } = useUser();
+  const isAdmin = user?.publicMetadata?.role === "admin";
+  const isDoctor = user?.publicMetadata?.role === "doctor";
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navLinks = [
@@ -60,13 +63,20 @@ function Navbar() {
           <NavLinkItem key={link.name} {...link} />
         ))}
 
-        {/* For Desktop (Only visible when signed in) */}
         <SignedIn>
-          <NavLinkItem name="My Bookings" path="/my-appointments" />
+          {/* 1. Only show "My Bookings" if user is NOT an admin AND NOT a doctor */}
+          {!isAdmin && !isDoctor && (
+            <NavLinkItem name="My Bookings" path="/my-appointments" />
+          )}
+
+          {/* 2. Show "Doctor Portal" with identical styling inside the menu div */}
+          {isDoctor && (
+            <NavLinkItem name="Doctor Portal" path="/doctor-dashboard" />
+          )}
         </SignedIn>
       </div>
 
-      {/* Authentication Logic */}
+      {/* Authentication Logic (Desktop) */}
       <div className="hidden md:flex items-center gap-4 ml-10">
         <SignedOut>
           <GetStarted />
@@ -93,7 +103,16 @@ function Navbar() {
 
           {/* For Mobile (Only visible when signed in) */}
           <SignedIn>
-            <NavLinkItem name="My Bookings" path="/my-appointments" mobile />
+            {!isAdmin && !isDoctor && (
+              <NavLinkItem name="My Bookings" path="/my-appointments" mobile />
+            )}
+            {isDoctor && (
+              <NavLinkItem
+                name="Doctor Portal"
+                path="/doctor-dashboard"
+                mobile
+              />
+            )}
           </SignedIn>
 
           <div className="pt-4 flex flex-col items-center gap-4">

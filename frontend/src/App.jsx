@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import Navbar from "./components/navbar";
 import HomePage from "./pages/homepage";
 import AboutUs from "./pages/about-us";
@@ -23,7 +29,67 @@ const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
 }
+const AppRoutes = () => {
+  const { isLoaded, user } = useUser();
 
+  if (!isLoaded)
+    return (
+      <div className="h-screen flex items-center justify-center font-poppins text-slate-400">
+        Loading Session...
+      </div>
+    );
+
+  const userRole = user?.publicMetadata?.role;
+
+  return (
+    <Router>
+      <ScrollToTop />
+      <div className="font-geist antialiased">
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login/*" element={<AuthPage />} />
+            <Route path="/signup/*" element={<AuthPage />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/doctors" element={<DoctorsPage />} />
+            <Route path="/doctor/:id" element={<DoctorDetails />} />
+            <Route path="/mode/:doctorId" element={<AppointmentMode />} />
+            <Route path="/book/online/:doctorId" element={<OnlineBooking />} />
+            <Route
+              path="/book/offline/:doctorId"
+              element={<OfflineBooking />}
+            />
+            <Route path="/payment-gate" element={<PaymentGate />} />
+            <Route
+              path="/my-appointments"
+              element={
+                <ProtectedRoute>
+                  <BookingHistory />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route
+              path="/doctor-dashboard"
+              element={
+                userRole === "doctor" ? (
+                  <DoctorDashboard />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            />
+            <Route path="/meeting-room" element={<MeetingRoom />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  );
+};
 function App() {
   return (
     <ClerkProvider
@@ -47,45 +113,8 @@ function App() {
         },
       }}
     >
-      <Router>
-        <ScrollToTop />
-        <div className="font-geist antialiased">
-          <Navbar />
-          <main>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/login/*" element={<AuthPage />} />
-              <Route path="/signup/*" element={<AuthPage />} />
-              <Route path="/about" element={<AboutUs />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/doctors" element={<DoctorsPage />} />
-              <Route path="/doctor/:id" element={<DoctorDetails />} />
-              <Route path="/mode/:doctorId" element={<AppointmentMode />} />
-              <Route
-                path="/book/online/:doctorId"
-                element={<OnlineBooking />}
-              />
-              <Route
-                path="/book/offline/:doctorId"
-                element={<OfflineBooking />}
-              />
-              <Route path="/payment-gate" element={<PaymentGate />} />
-              <Route
-                path="/my-appointments"
-                element={
-                  <ProtectedRoute>
-                    <BookingHistory />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
+      <AppRoutes />
     </ClerkProvider>
   );
 }
-
 export default App;
