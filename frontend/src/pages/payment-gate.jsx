@@ -37,6 +37,7 @@ const PaymentGate = () => {
       await axios.post("http://localhost:8000/bookings/confirm", {
         order_id: orderId,
         patient_id: user.id,
+        patient_name: user.fullName,
         email: userEmail,
       });
       setStatus("success");
