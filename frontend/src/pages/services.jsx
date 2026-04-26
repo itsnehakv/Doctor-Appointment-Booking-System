@@ -238,23 +238,6 @@ const Services = () => {
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap justify-center gap-3 mb-16">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setFilter(cat)}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition ${
-              filter === cat
-                ? "bg-emerald-600 text-white shadow-md"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-emerald-400 hover:text-emerald-600"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
       {/* Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredServices.map((service) => (
