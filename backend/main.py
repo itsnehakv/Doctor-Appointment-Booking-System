@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, Query,BackgroundTasks
+from fastapi import FastAPI, Depends, HTTPException, Query,BackgroundTasks, Header
 import models
 import os
 from dotenv import load_dotenv
@@ -14,6 +14,8 @@ from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 models.Base.metadata.create_all(bind=engine)
 
 load_dotenv()
+
+MAIL_USERNAME=os.getenv("MAIL_USERNAME")
 MAIL_PASSWORD=os.getenv("MAIL_PASSWORD")
 
 app = FastAPI(title="InstantMD API")
@@ -23,16 +25,16 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins, # Your React URL
+    allow_origins=origins, 
     allow_credentials=True,
     allow_methods=["*"], # Allows GET, POST, PATCH, DELETE, etc.
     allow_headers=["*"], # Allows all headers
 )
 
 conf = ConnectionConfig(
-    MAIL_USERNAME="tendersoftdefective@gmail.com",
+    MAIL_USERNAME=MAIL_USERNAME,
     MAIL_PASSWORD=MAIL_PASSWORD,
-    MAIL_FROM="tendersoftdefective@gmail.com",
+    MAIL_FROM=MAIL_USERNAME,
     MAIL_PORT=587,
     MAIL_SERVER="smtp.gmail.com",
     MAIL_STARTTLS=True,
@@ -40,6 +42,16 @@ conf = ConnectionConfig(
     USE_CREDENTIALS=True,
     VALIDATE_CERTS=True
 )
+
+def verify_admin(x_user_role: str = Header(None)):
+    if x_user_role != "admin":
+        raise HTTPException(status_code=403, detail="Unauthorized: Admin role required")
+    return True
+
+def verify_doctor(x_user_role: str = Header(None)):
+    if x_user_role != "doctor":
+        raise HTTPException(status_code=403, detail="Unauthorized: Doctor role required")
+    return True
 
 @app.get("/")
 def root():
@@ -435,3 +447,109 @@ async def cancel_appointment(
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail="Systems error during cancellation logic.")
+
+# GET all doctors for the Admin (including inactive ones)
+@app.get("/admin/doctors")
+def get_all_doctors_admin(db: Session = Depends(get_db), admin: bool = Depends(verify_admin)):
+    return db.query(models.Doctor).all()
+
+# DELETE a doctor permanently
+@app.delete("/admin/doctors/{doc_id}")
+def delete_doctor(doc_id: int, db: Session = Depends(get_db), admin: bool = Depends(verify_admin)):
+    doctor = db.query(models.Doctor).filter(models.Doctor.id == doc_id).first()
+    if not doctor:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+    db.delete(doctor)
+    db.commit()
+    return {"message": "Doctor deleted successfully"}
+
+
+# --- ADMIN: TOGGLE DOCTOR STATUS ---
+@app.patch("/admin/doctors/{doc_id}/toggle")
+def toggle_doctor_status(doc_id: int, db: Session = Depends(get_db), admin: bool = Depends(verify_admin)):
+    doctor = db.query(models.Doctor).filter(models.Doctor.id == doc_id).first()
+    if not doctor:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    # Simple flip logic
+    doctor.is_active = not doctor.is_active
+    db.commit()
+    db.refresh(doctor)
+    return {"status": "success", "is_active": doctor.is_active}
+
+
+# --- ADMIN: VIEW INQUIRIES ---
+@app.get("/admin/inquiries")
+def get_inquiries(db: Session = Depends(get_db), admin: bool = Depends(verify_admin)):
+    # Assuming you have a ContactInquiry model
+    return db.query(models.ContactInquiry).order_by(desc(models.ContactInquiry.id)).all()
+
+@app.post("/contact")
+async def create_inquiry(inquiry: schemas.InquiryCreate, db: Session = Depends(get_db)):
+    new_inquiry = models.ContactInquiry(
+        name=inquiry.name,
+        email=inquiry.email,
+        subject=inquiry.subject,
+        message=inquiry.message
+        # is_resolved will default to False automatically
+    )
+    db.add(new_inquiry)
+    db.commit()
+    return {"status": "success", "message": "Inquiry logged in system ledger."}
+
+
+@app.patch("/admin/inquiries/{inquiry_id}/resolve")
+def resolve_inquiry(inquiry_id: int, db: Session = Depends(get_db), admin: bool = Depends(verify_admin)):
+    inquiry = db.query(models.ContactInquiry).filter(models.ContactInquiry.id == inquiry_id).first()
+    if not inquiry:
+        raise HTTPException(status_code=404, detail="Inquiry not found")
+
+    inquiry.is_resolved = True
+    db.commit()
+    return {"status": "success"}
+
+# --- GET DOCTOR ID BY EMAIL ---
+@app.get("/doctor/id-lookup")
+def lookup_doctor_id(email: str, db: Session = Depends(get_db)):
+    doctor = db.query(models.Doctor).filter(models.Doctor.email == email).first()
+    if not doctor:
+        # If the email isn't in the DB, they aren't registered as a doctor
+        raise HTTPException(status_code=404, detail="Doctor profile not found")
+    return {"doctor_id": doctor.id}
+
+# --- DOCTOR: GET OWN PROFILE & APPOINTMENTS ---
+@app.get("/doctor/me")
+def get_doctor_dashboard(
+        doctor_id: int,
+        db: Session = Depends(get_db),
+        doctor_auth: bool = Depends(verify_doctor)  # 🔒 Security added
+):
+    doctor = db.query(models.Doctor).filter(models.Doctor.id == doctor_id).first()
+    if not doctor:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    appointments = db.query(models.Appointment).filter(
+        models.Appointment.doctor_id == doctor_id,
+        models.Appointment.status == models.ApptStatus.BOOKED
+    ).order_by(models.Appointment.appointment_time.asc()).all()
+
+    return {
+        "profile": doctor,
+        "appointments": appointments
+    }
+
+
+# --- DOCTOR: TOGGLE OWN STATUS ---
+@app.patch("/doctor/status")
+def toggle_my_status(
+        doctor_id: int,
+        db: Session = Depends(get_db),
+        doctor_auth: bool = Depends(verify_doctor)  # 🔒 Security added
+):
+    doctor = db.query(models.Doctor).filter(models.Doctor.id == doctor_id).first()
+    if not doctor:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    doctor.is_active = not doctor.is_active
+    db.commit()
+    return {"is_active": doctor.is_active}
