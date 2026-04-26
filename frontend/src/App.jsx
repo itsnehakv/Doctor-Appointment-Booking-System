@@ -9,7 +9,7 @@ import Navbar from "./components/navbar";
 import HomePage from "./pages/homepage";
 import AboutUs from "./pages/about-us";
 import Contact from "./pages/contact.jsx";
-import AuthPage from "./pages/auth";
+import AuthPage from "./pages/Auth";
 import Footer from "./components/footer.jsx";
 import Services from "./pages/services.jsx";
 import { ClerkProvider } from "@clerk/clerk-react";
