@@ -18,9 +18,12 @@ load_dotenv()
 MAIL_USERNAME=os.getenv("MAIL_USERNAME")
 MAIL_PASSWORD=os.getenv("MAIL_PASSWORD")
 
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
 app = FastAPI(title="InstantMD API")
 origins = [
-    "http://localhost:5173",  # Vite / React's modern default port
+    frontend_url,
+    "http://localhost:5173",  
     "http://127.0.0.1:5173"]
 
 app.add_middleware(
