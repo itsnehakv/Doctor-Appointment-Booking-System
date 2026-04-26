@@ -1,4 +1,4 @@
-import Hero from "../components/Hero";
+import Hero from "../components/hero";
 import FeaturesSection from "../components/feature-section";
 import Testimonials from "../components/review";
 import Footer from "../components/footer";
