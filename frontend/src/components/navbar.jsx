@@ -2,17 +2,24 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import GetStarted from "./getstarted.jsx";
 import Logo from "./logo.jsx";
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 
 function Navbar() {
+  const { user } = useUser();
+  const isAdmin = user?.publicMetadata?.role === "admin";
   const [open, setOpen] = useState(false);
   const location = useLocation();
+
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
     { name: "Services", path: "/services" },
     { name: "Contact", path: "/contact" },
   ];
+
+  if (isAdmin) {
+    navLinks.push({ name: "Admin Panel", path: "/admin" });
+  }
 
   const NavLinkItem = ({ name, path, mobile = false }) => (
     <Link
@@ -60,9 +67,11 @@ function Navbar() {
           <NavLinkItem key={link.name} {...link} />
         ))}
 
-        {/* For Desktop (Only visible when signed in) */}
+        {/* 🛡️ Only show for non-admin signed-in users */}
         <SignedIn>
-          <NavLinkItem name="My Bookings" path="/my-appointments" />
+          {!isAdmin && (
+            <NavLinkItem name="My Bookings" path="/my-appointments" />
+          )}
         </SignedIn>
       </div>
 
@@ -76,7 +85,6 @@ function Navbar() {
         </SignedIn>
       </div>
 
-      {/* Mobile Toggle */}
       <button
         onClick={() => setOpen(!open)}
         className="md:hidden text-stone-600 text-xl p-2"
@@ -91,9 +99,10 @@ function Navbar() {
             <NavLinkItem key={link.name} {...link} mobile />
           ))}
 
-          {/* For Mobile (Only visible when signed in) */}
           <SignedIn>
-            <NavLinkItem name="My Bookings" path="/my-appointments" mobile />
+            {!isAdmin && (
+              <NavLinkItem name="My Bookings" path="/my-appointments" mobile />
+            )}
           </SignedIn>
 
           <div className="pt-4 flex flex-col items-center gap-4">
