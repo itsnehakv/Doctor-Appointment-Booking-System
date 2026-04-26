@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Enum, Float
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Enum, Float, Boolean
 from database import Base
 import enum
 from datetime import datetime, timezone
@@ -15,6 +15,7 @@ class Doctor(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False)
+    email = Column(String, unique=True, index=True)
     specialization = Column(String(100), index=True)
     experience = Column(String(50))
     fees = Column(Integer)
@@ -27,6 +28,7 @@ class Doctor(Base):
     total_consultations = Column(Integer, default=100)
     start_time = Column(String, default="09:00")
     end_time = Column(String, default="17:00")
+    is_active = Column(Boolean, default=True)
 
 class Appointment(Base):
     __tablename__ = "appointments"
@@ -47,3 +49,14 @@ class PendingBooking(Base):
     order_id = Column(String, unique=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     type = Column(String, default="online")
+
+class ContactInquiry(Base):
+    __tablename__ = "contact_inquiries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    email = Column(String)
+    subject = Column(String)
+    message = Column(Text)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    is_resolved = Column(Boolean, default=False)
