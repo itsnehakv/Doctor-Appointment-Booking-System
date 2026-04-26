@@ -18,7 +18,6 @@ export function ContactForm() {
         formData
       );
       if (response.status === 200) {
-        alert("Inquiry Sent Successfully!");
         setFormData({
           name: "",
           email: "",
