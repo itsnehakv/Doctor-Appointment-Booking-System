@@ -10,7 +10,7 @@ export function SupportGrid() {
     {
       title: "Medical Partners",
       email: "partners@instantmd.com",
-      desc: "For clinics and doctors looking to integrate with our booking infrastructure.",
+      desc: "For clinics and doctors looking to integrate with us.",
       icon: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
     },
     {
@@ -58,25 +58,10 @@ export function SupportGrid() {
           </p>
 
           <div className="pt-6 border-t border-slate-100">
-            <a
-              href={`mailto:${tier.email}`}
-              className="inline-flex items-center gap-3 text-emerald-600 font-bold text-sm hover:text-emerald-700 transition-colors"
-            >
-              <span className="underline underline-offset-4 decoration-2 decoration-emerald-500/20 group-hover:decoration-emerald-500">
-                {tier.email}
-              </span>
-              <div className="size-6 rounded-full bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
-                <svg
-                  className="size-3"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
-            </a>
+            <div className="inline-flex items-center gap-3 text-slate-500 font-semibold text-sm cursor-default">
+              <span className="text-green-700">{tier.email}</span>
+              <div className="size-6 rounded-full bg-slate-50 flex items-center justify-center text-slate-400"></div>
+            </div>
           </div>
         </div>
       ))}
