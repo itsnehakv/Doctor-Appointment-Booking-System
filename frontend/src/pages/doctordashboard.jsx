@@ -7,20 +7,18 @@ import {
   Clock,
   User,
   CheckCircle,
-  Award,
   Activity,
 } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 
 export default function DoctorDashboard() {
-  const { user, isLoaded } = useUser();
+  const { user } = useUser();
   const [doctorId, setDoctorId] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-  // Memoized headers to prevent unnecessary re-renders
   const doctorHeaders = {
     "x-user-role": user?.publicMetadata?.role || "doctor",
     "x-user-email": user?.primaryEmailAddress?.emailAddress,
@@ -41,23 +39,21 @@ export default function DoctorDashboard() {
 
   useEffect(() => {
     const getMyId = async () => {
-      if (!isLoaded || !user?.primaryEmailAddress?.emailAddress) return;
-
-      try {
-        const res = await axios.get(
-          `${API_BASE_URL}/doctor/id-lookup?email=${user.primaryEmailAddress.emailAddress}`
-        );
-        if (res.data.doctor_id) {
+      if (user?.primaryEmailAddress?.emailAddress) {
+        try {
+          const res = await axios.get(
+            `${API_BASE_URL}/doctor/id-lookup?email=${user.primaryEmailAddress.emailAddress}`
+          );
           setDoctorId(res.data.doctor_id);
           fetchDashboard(res.data.doctor_id);
+        } catch (err) {
+          console.error("Email not found in Doctors table");
+          setLoading(false);
         }
-      } catch (err) {
-        console.error("Email not found in Doctors table");
-        setLoading(false);
       }
     };
     getMyId();
-  }, [user, isLoaded]);
+  }, [user]);
 
   const toggleStatus = async () => {
     try {
@@ -72,47 +68,46 @@ export default function DoctorDashboard() {
     }
   };
 
-  if (loading || !isLoaded)
+  if (loading)
     return (
-      <div className="flex h-screen items-center justify-center bg-white">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-emerald-500"></div>
+      <div className="flex h-screen items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
       </div>
     );
 
   if (!doctorId)
     return (
       <div className="pt-40 text-center text-red-500 font-bold">
-        Profile Linkage Required. Contact Administrator.
+        Profile Linkage Required.
       </div>
     );
 
   return (
-    <div className="relative w-full min-h-screen bg-slate-50 overflow-hidden font-poppins">
-      {/* --- BACKGROUND LAYERS --- */}
-      {/* --- DARKER BACKGROUND LAYERS --- */}
-      <div className="absolute inset-0 z-0 pointer-events-none bg-slate-100/50">
-        {/* Increased grid opacity from 0.03 to 0.07 and tightened size */}
+    <div className="relative min-h-screen bg-slate-100 overflow-hidden font-poppins">
+      {/* --- ENHANCED LAYERED BACKGROUND --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Primary Grid Texture */}
         <div
-          className="absolute inset-0 opacity-[0.07]"
+          className="absolute inset-0 opacity-[0.08]"
           style={{
-            backgroundImage: `linear-gradient(#0f172a 1.5px, transparent 1.5px), linear-gradient(90deg, #0f172a 1.5px, transparent 1.5px)`,
-            backgroundSize: "50px 50px",
+            backgroundImage: `linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
           }}
         />
 
-        {/* Stronger, more saturated radial glows */}
-        <div className="absolute top-[-10%] right-[-5%] w-[60%] h-[700px] rounded-full bg-emerald-400/20 blur-[130px]" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[600px] rounded-full bg-teal-500/20 blur-[110px]" />
+        {/* Large Decorative Aura Blurs */}
+        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[600px] bg-emerald-200/30 blur-[140px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[500px] bg-teal-200/25 blur-[120px] rounded-full" />
+        <div className="absolute top-[30%] left-[20%] w-[30%] h-[300px] bg-indigo-100/20 blur-[100px] rounded-full" />
 
-        {/* Added a subtle center vignette to pull focus to the cards */}
-        <div className="absolute inset-0 bg-radial-gradient from-transparent to-slate-200/40" />
+        {/* Subtle Vignette for depth */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-slate-100/10 to-slate-200/40" />
       </div>
 
-      {/* --- MAIN CONTENT --- */}
       <div className="relative z-10 pt-32 px-6 max-w-7xl mx-auto pb-20">
-        {/* HERO SECTION */}
-        <div className="relative overflow-hidden mb-12 bg-gradient-to-br from-emerald-600/90 to-teal-700/90 backdrop-blur-md p-10 rounded-[3rem] shadow-2xl shadow-emerald-900/20 border border-white/10">
-          <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        {/* Profile Header */}
+        <div className="relative overflow-hidden mb-12 bg-gradient-to-br from-emerald-600 to-teal-800 p-10 rounded-[3rem] shadow-2xl shadow-emerald-900/20 border border-white/10 backdrop-blur-sm">
+          <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl" />
 
           <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-6 text-center md:text-left flex-col md:flex-row">
@@ -136,10 +131,10 @@ export default function DoctorDashboard() {
 
             <button
               onClick={toggleStatus}
-              className={`group relative flex items-center gap-3 px-8 py-4 rounded-2xl font-black transition-all duration-500 ${
+              className={`group relative flex items-center gap-3 px-8 py-4 rounded-2xl font-black transition-all duration-500 shadow-lg ${
                 data.profile.is_active
-                  ? "bg-white text-emerald-700 shadow-xl shadow-black/10"
-                  : "bg-emerald-800/40 text-emerald-100 border border-emerald-500/30"
+                  ? "bg-white text-emerald-700 hover:scale-105"
+                  : "bg-emerald-900/40 text-emerald-100 border border-emerald-500/30 hover:bg-emerald-900/60"
               }`}
             >
               <Power
@@ -151,16 +146,15 @@ export default function DoctorDashboard() {
           </div>
         </div>
 
-        {/* DASHBOARD GRID */}
         <div className="grid lg:grid-cols-4 gap-10">
-          {/* LEFT: APPOINTMENTS LIST */}
+          {/* Appointment List */}
           <div className="lg:col-span-3 space-y-6">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-xl font-black text-slate-800 flex items-center gap-3">
                 <Calendar className="text-emerald-600" />
                 Upcoming Schedule
               </h3>
-              <span className="text-xs font-bold text-slate-500 bg-white/50 backdrop-blur-sm border border-white px-4 py-2 rounded-full shadow-sm">
+              <span className="text-xs font-bold text-slate-500 bg-white/70 backdrop-blur-sm border border-white/50 px-4 py-2 rounded-full shadow-sm">
                 {data.appointments.length} Consultations Pending
               </span>
             </div>
@@ -175,16 +169,16 @@ export default function DoctorDashboard() {
                     key={appt.id}
                     className={`group border p-6 rounded-[2.5rem] flex flex-col md:flex-row justify-between items-center transition-all duration-300 backdrop-blur-md ${
                       isExpired
-                        ? "bg-slate-100/50 border-slate-200 opacity-60 grayscale-[0.5]"
-                        : "bg-white/70 border-white/40 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-500/5"
+                        ? "bg-slate-200/40 border-slate-300 opacity-60 grayscale"
+                        : "bg-white/80 border-white/60 hover:border-emerald-300 hover:bg-white shadow-xl shadow-slate-200/50"
                     }`}
                   >
                     <div className="flex items-center gap-5 w-full">
                       <div
-                        className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors ${
+                        className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors shadow-inner border border-slate-100 ${
                           isExpired
-                            ? "bg-slate-200 text-slate-400"
-                            : "bg-white text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 shadow-sm"
+                            ? "bg-slate-300 text-slate-500"
+                            : "bg-slate-50 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600"
                         }`}
                       >
                         <User size={28} />
@@ -196,7 +190,7 @@ export default function DoctorDashboard() {
                             {appt.patient_name || "New Patient"}
                           </p>
                           {isExpired && (
-                            <span className="text-[9px] font-black bg-slate-200 text-slate-500 px-2 py-0.5 rounded-md tracking-widest uppercase">
+                            <span className="text-[9px] font-black bg-slate-300 text-slate-600 px-2 py-0.5 rounded-md tracking-widest uppercase">
                               Expired
                             </span>
                           )}
@@ -218,7 +212,6 @@ export default function DoctorDashboard() {
                               year: "numeric",
                             })}
                           </span>
-
                           <span className="flex items-center gap-1.5 font-bold">
                             <Clock
                               size={14}
@@ -233,14 +226,13 @@ export default function DoctorDashboard() {
                               minute: "2-digit",
                             })}
                           </span>
-
                           <span
                             className={`uppercase font-black text-[9px] px-3 py-1 rounded-lg ${
                               isExpired
-                                ? "bg-slate-200 text-slate-500"
+                                ? "bg-slate-300 text-slate-600"
                                 : appt.type === "online"
-                                ? "bg-blue-50 text-blue-600"
-                                : "bg-orange-50 text-orange-600"
+                                ? "bg-blue-100 text-blue-700"
+                                : "bg-orange-100 text-orange-700"
                             }`}
                           >
                             {appt.type}
@@ -257,8 +249,8 @@ export default function DoctorDashboard() {
                         }
                         className={`mt-4 md:mt-0 w-full md:w-auto px-8 py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 text-sm font-black shadow-lg ${
                           isExpired
-                            ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
-                            : "bg-slate-800 hover:bg-emerald-600 text-white hover:shadow-emerald-500/40"
+                            ? "bg-slate-300 text-slate-500 cursor-not-allowed"
+                            : "bg-slate-900 hover:bg-emerald-600 text-white hover:shadow-emerald-500/40"
                         }`}
                       >
                         <Video size={18} />
@@ -268,31 +260,19 @@ export default function DoctorDashboard() {
                   </div>
                 );
               })}
-
-              {data.appointments.length === 0 && (
-                <div className="text-center py-24 bg-white/60 backdrop-blur-md rounded-[3rem] border border-dashed border-slate-200">
-                  <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle size={40} className="text-slate-200" />
-                  </div>
-                  <p className="text-slate-400 font-bold">
-                    No consultations scheduled.
-                  </p>
-                </div>
-              )}
             </div>
           </div>
 
-          {/* RIGHT: OVERVIEW SIDEBAR */}
+          {/* Right Stats Sidebar */}
           <div className="space-y-6">
-            <div className="bg-white/80 backdrop-blur-lg p-8 rounded-[3rem] border border-white shadow-xl shadow-emerald-900/5 overflow-hidden relative">
-              <Activity className="absolute right-[-10px] top-[-10px] text-emerald-500/10 w-24 h-24" />
+            <div className="bg-white/90 backdrop-blur-xl p-8 rounded-[3rem] border border-white shadow-2xl shadow-slate-200/50 overflow-hidden relative">
+              <Activity className="absolute right-[-10px] top-[-10px] text-emerald-500/5 w-24 h-24" />
               <h4 className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-6">
                 Today's Overview
               </h4>
-
               <div className="space-y-6 relative z-10">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center font-bold border border-blue-100 shadow-sm">
                     {
                       data.appointments.filter((a) => a.type === "online")
                         .length
@@ -302,9 +282,8 @@ export default function DoctorDashboard() {
                     Online Sessions
                   </p>
                 </div>
-
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center font-bold border border-orange-100 shadow-sm">
                     {
                       data.appointments.filter((a) => a.type === "offline")
                         .length
