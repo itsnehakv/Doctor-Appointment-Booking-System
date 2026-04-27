@@ -89,16 +89,23 @@ export default function DoctorDashboard() {
   return (
     <div className="relative w-full min-h-screen bg-slate-50 overflow-hidden font-poppins">
       {/* --- BACKGROUND LAYERS --- */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* --- DARKER BACKGROUND LAYERS --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none bg-slate-100/50">
+        {/* Increased grid opacity from 0.03 to 0.07 and tightened size */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.07]"
           style={{
-            backgroundImage: `linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
+            backgroundImage: `linear-gradient(#0f172a 1.5px, transparent 1.5px), linear-gradient(90deg, #0f172a 1.5px, transparent 1.5px)`,
+            backgroundSize: "50px 50px",
           }}
         />
-        <div className="absolute top-[-10%] right-[-5%] w-[50%] h-[600px] rounded-full bg-emerald-200/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[500px] rounded-full bg-teal-100/30 blur-[100px]" />
+
+        {/* Stronger, more saturated radial glows */}
+        <div className="absolute top-[-10%] right-[-5%] w-[60%] h-[700px] rounded-full bg-emerald-400/20 blur-[130px]" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[600px] rounded-full bg-teal-500/20 blur-[110px]" />
+
+        {/* Added a subtle center vignette to pull focus to the cards */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent to-slate-200/40" />
       </div>
 
       {/* --- MAIN CONTENT --- */}
