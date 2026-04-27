@@ -14,13 +14,6 @@ const DoctorsPage = () => {
   const [doctors, setDoctors] = useState([]);
   const [filter, setFilter] = useState(initialSpecialty);
   const [loading, setLoading] = useState(true);
-  const [pendingDocId, setPendingDocId] = useState(null); // Track which doc they clicked
-
-  useEffect(() => {
-    if (isLoaded && isSignedIn && pendingDocId) {
-      navigate(`/mode/${pendingDocId}`);
-    }
-  }, [isSignedIn, isLoaded, pendingDocId, navigate]);
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -199,11 +192,14 @@ const DoctorsPage = () => {
                       <BookBtnInner />
                     </button>
                   ) : (
-                    <SignInButton mode="modal">
+                    <SignInButton
+                      mode="modal"
+                      forceRedirectUrl={`/mode/${doctor.id}`} // 🟢 Clerk will take them here automatically
+                    >
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setPendingDocId(doctor.id); // 🟢 Store ID so we can redirect after login
+                          // No need for setPendingDocId anymore!
                         }}
                         className="bg-emerald-600 w-52 rounded-xl h-12 relative text-white text-[10px] font-bold uppercase border border-emerald-600 group overflow-hidden hover:bg-emerald-700"
                       >

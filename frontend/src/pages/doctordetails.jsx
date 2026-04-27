@@ -24,6 +24,8 @@ const DoctorDetails = () => {
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
   useEffect(() => {
+    if (!id || id === "undefined" || id === "null") return;
+
     const fetchDoctorDetails = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/doctors/${id}`);
@@ -35,7 +37,7 @@ const DoctorDetails = () => {
       }
     };
     fetchDoctorDetails();
-  }, [id]);
+  }, [id, API_BASE_URL]);
 
   if (loading)
     return (
@@ -172,7 +174,7 @@ const DoctorDetails = () => {
                     <ButtonContent />
                   </button>
                 ) : (
-                  <SignInButton mode="modal">
+                  <SignInButton mode="modal" forceRedirectUrl={`/mode/${id}`}>
                     <button className="group relative h-14 px-8 rounded-2xl overflow-hidden transition-all duration-300 shadow-lg shadow-emerald-200 hover:shadow-emerald-300">
                       <ButtonContent />
                     </button>
