@@ -149,7 +149,7 @@ const DoctorsPage = () => {
                         ₹{doctor.fees}
                       </p>
                       <p className="text-[10px] text-emerald-600 font-bold uppercase mt-1">
-                        Consultation
+                        Fees
                       </p>
                     </div>
                   </div>
