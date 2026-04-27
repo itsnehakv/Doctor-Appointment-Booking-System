@@ -85,6 +85,19 @@ export default function DoctorDashboard() {
   return (
     <div className="pt-32 px-6 max-w-7xl mx-auto pb-20 font-poppins">
       <div className="relative overflow-hidden mb-12 bg-gradient-to-r from-emerald-600 to-teal-700 p-10 rounded-[3rem] shadow-2xl shadow-emerald-200/50">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          {/* Subtle Grid Pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: `linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px)`,
+              backgroundSize: "60px 60px",
+            }}
+          />
+          {/* Soft Emerald Glows */}
+          <div className="absolute top-[-10%] right-[-5%] w-[50%] h-[600px] rounded-full bg-emerald-200/20 blur-[120px]" />
+          <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[500px] rounded-full bg-teal-100/30 blur-[100px]" />
+        </div>
         {/* Abstract Background Shapes */}
         <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-[-20%] left-[10%] w-40 h-40 bg-emerald-400/20 rounded-full blur-2xl"></div>
