@@ -56,6 +56,16 @@ export default function DoctorDashboard() {
   }, [user]);
 
   const toggleStatus = async () => {
+    const originalStatus = data.profile.is_active;
+
+    setData((prev) => ({
+      ...prev,
+      profile: {
+        ...prev.profile,
+        is_active: !originalStatus,
+      },
+    }));
+
     try {
       await axios.patch(
         `${API_BASE_URL}/doctor/status?doctor_id=${doctorId}`,
@@ -65,9 +75,17 @@ export default function DoctorDashboard() {
       fetchDashboard(doctorId);
     } catch (err) {
       console.error("Status toggle failed:", err);
+
+      setData((prev) => ({
+        ...prev,
+        profile: {
+          ...prev.profile,
+          is_active: originalStatus,
+        },
+      }));
+      alert("Failed to update status. Please check your connection.");
     }
   };
-
   if (loading)
     return (
       <div className="flex h-screen items-center justify-center bg-slate-50">
