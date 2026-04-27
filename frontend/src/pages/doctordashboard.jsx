@@ -173,7 +173,13 @@ export default function DoctorDashboard() {
                 Upcoming Schedule
               </h3>
               <span className="text-xs font-bold text-slate-500 bg-white/70 backdrop-blur-sm border border-white/50 px-4 py-2 rounded-full shadow-sm">
-                {data.appointments.length} Consultations Pending
+                {`${
+                  data.appointments.filter(
+                    (appt) =>
+                      appt.status === "booked" &&
+                      new Date(appt.appointment_time) > new Date()
+                  ).length
+                } Consultations Pending`}
               </span>
             </div>
 
@@ -250,7 +256,7 @@ export default function DoctorDashboard() {
                                 ? "bg-slate-300 text-slate-600"
                                 : appt.type === "online"
                                 ? "bg-blue-100 text-blue-700"
-                                : "bg-orange-100 text-orange-700"
+                                : "bg-cyan-100 text-violet-700"
                             }`}
                           >
                             {appt.type}
@@ -268,7 +274,7 @@ export default function DoctorDashboard() {
                         className={`mt-4 md:mt-0 w-full md:w-auto px-8 py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 text-sm font-black shadow-lg ${
                           isExpired
                             ? "bg-slate-300 text-slate-500 cursor-not-allowed"
-                            : "bg-slate-900 hover:bg-emerald-600 text-white hover:shadow-emerald-500/40"
+                            : "bg-emerald-700 hover:bg-emerald-600 text-white hover:shadow-emerald-500/40"
                         }`}
                       >
                         <Video size={18} />
@@ -301,7 +307,7 @@ export default function DoctorDashboard() {
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center font-bold border border-orange-100 shadow-sm">
+                  <div className="w-10 h-10 bg-violet-100 text-indigo-600 rounded-xl flex items-center justify-center font-bold border border-indigo-100 shadow-sm">
                     {
                       data.appointments.filter((a) => a.type === "offline")
                         .length
