@@ -29,58 +29,13 @@ InstantMD was engineered to solve the "Double-Booking" problem in healthcare. Un
 
 </div>
 
+---
+
 ## Core Features
 * **Specialty-Based Doctor Discovery:** A structured navigation system that categorizes medical practitioners by specialized domains (e.g., Cardiology, Pediatrics). The backend utilizes optimized PostgreSQL queries to map and retrieve doctors belonging to specific specialty IDs, ensuring an organized and rapid discovery process.
 * **Patient Portal:** Centralized hub for users to track appointment history and upcoming sessions.
 * **Doctor Dashboard (RBAC Protected):** Specialized view for Doctors to manage upcoming appointments and patient queues.
 * **Admin Orchestration (RBAC Protected):** Full administrative control over doctor registries (CRUD operations) and patient inquiry management.
-
-### 1. Dynamic Sliding Window Algorithm
-* **Engine:** The core scheduling logic utilizes a custom engine that scans doctor availability in 15-minute increments to calculate real-time availability windows.
-* **Optimization:** Unlike static slot systems, this supports variable appointment lengths (30m, 45m, 60m) while automatically injecting clinical check-in buffers.
-* **Impact:** This algorithmic approach maximizes provider utilization by eliminating schedule fragmentation and "dead time," ensuring high operational efficiency.
-
-### 2. Concurrency Control & Soft-Locking
-* **Mechanism:** To resolve the "Race Condition" inherent in high-traffic booking systems, I implemented an **Atomic Pending Ledger** utilizing **Soft-Locking** mechanisms.
-* **Resiliency:** When a user initiates a booking, the specific time slot is temporarily locked in a `Pending_Bookings` table. An automated 10-minute **TTL (Time-To-Live)** ensures slot liquidity; if the booking is not finalized, the lock is automatically released.
-* **Integrity:** Guaranteed ACID-compliant integrity, preventing oversubscription and double-booking at the database layer.
-
-### 3. Role-Based Access Control (RBAC) & Security
-* **Identity:** The system employs stateless authentication via **Clerk (JWT)** with embedded custom identity claims to verify user roles.
-* **Authorization:** Access control is enforced through FastAPI dependency-injected security guards, establishing a "Least Privilege" environment for Admin, Doctor, and Patient roles.
-* **Privacy:** Strict horizontal data isolation is achieved through `/me` namespaces, ensuring that users are cryptographically barred from accessing sensitive medical records or scheduling histories outside their own.
-
-### 4. Asynchronous Performance Optimization
-* **Performance:** By leveraging FastAPI’s `async/await`, the system maintains non-blocking I/O across all Supabase/PostgreSQL queries.
-* **Efficiency:** Secondary processes, such as SMTP email notifications and logging, are offloaded to background threads, reducing API response latency by ~300ms.
-* **Availability:** An external heartbeat monitor is integrated to mitigate "Cold Start" latency on cloud-hosted instances, ensuring the API remains responsive for immediate user requests.
-
-### 5. Containerization & Deployment
-* **Standardization:** The application is fully containerized using **Docker**, ensuring absolute environment parity between local development and production.
-* **Orchestration:** The architecture is distributed across **Render** (FastAPI backend in Docker) and **Vercel** (React frontend), utilizing a decoupled approach for independent scaling of services.
-* **Reliability:** Dockerization allows for rapid deployment cycles and consistent execution of the Python environment, regardless of the underlying cloud infrastructure.
-## 🚀 Key Technical Implementation
-
-### 1. Dynamic Sliding Window Algorithm
-The core scheduling logic utilizes a **Sliding Window** to scan doctor availability.
-* **Interval Logic:** Scans the database in 15-minute increments.
-* **Dynamic Sizing:** Allows for variable appointment lengths (30m, 45m, 60m) while automatically injecting check-in buffers.
-* **Business Impact:** Maximizes doctor utilization rates by eliminating fragmented "dead time" between appointments.
-
-### 2. Concurrency Control (Atomic Pending Ledger)
-To handle the "Race Condition" during high-traffic booking periods:
-* **Soft-Locking:** Implemented a `Pending_Bookings` ledger that creates a temporary lock on a slot for 10 minutes.
-* **TTL (Time-To-Live):** Automated expiration logic releases locks if payment or confirmation is not received, ensuring slot liquidity.
-* **Integrity:** Prevents overbooking at the database level rather than just the UI level.
-
-### 3. Role-Based Access Control (RBAC) & Security
-* **Stateless Authentication:** Utilizes **JWT (JSON Web Tokens)** for identity verification.
-* **Backend Guards:** Custom decorators verify user claims (Doctor, Admin, Patient) before granting access to sensitive clinical endpoints.
-* **Data Privacy:** Implemented `/me` endpoints to ensure users can only access their personal medical records and scheduling history.
-
-### 4. Asynchronous Performance Optimization
-* **Non-Blocking I/O:** Leveraged FastAPI’s `async/await` for database queries and external service calls.
-* **Background Processing:** SMTP email notifications are offloaded to background threads, allowing the main API thread to return a 'Success' status immediately to the user.
 
 ## Tech Stack 
 
@@ -92,14 +47,49 @@ To handle the "Race Condition" during high-traffic booking periods:
 | **Database** | **PostgreSQL (Supabase)** | Relational data persistence with ACID compliance for complex scheduling queries. |
 | **ORM** | **SQLAlchemy** | Object-Relational Mapping for type-safe database interactions.|
 | **Security** | **Clerk / JWT** | Stateless identity verification with Role-Based Access Control (RBAC). Client-side session management and secure route guarding.|
+| **Containerization** | **Docker** | Fully containerized environment ensuring absolute parity between local development and production. |
 | **Deployment** | **Vercel, Render** | Distributed cloud hosting architecture with automated CI/CD. |
 | **Networking** | **Heartbeat Monitor** | External cron-based health checks to eliminate "Cold Start" latency. |
 
+## Key Engineering Highlights
 
-## 📊 Database Schema
-The relational database is designed for referential integrity:
-* **One-to-Many:** Doctors/Patients to Appointments.
-* **Transaction Table:** Dedicated `Pending_Bookings` table for temporary state management to keep the primary `Appointments` table optimized for read-heavy operations.
+#### 1. Dynamic Sliding Window Algorithm
+* **Engine:** Processes doctor availability in **15-minute increments** to calculate real-time scheduling windows.
+* **Optimization:** Supports variable lengths (**30m, 45m, 60m**) and automatically injects clinical check-in buffers—moving beyond rigid, static slot systems.
+* **Impact:** Maximizes provider utilization by eliminating "dead time" and schedule fragmentation.
 
+#### 2. Concurrency Control & Soft-Locking
+* **Mechanism:** Resolves high-traffic "Race Conditions" via an **Atomic Pending Ledger** and Soft-Locking.
+* **Resiliency:** Temporary locks are placed in a `Pending_Bookings` table with a **10-minute TTL** (Time-To-Live). If a booking isn't finalized, the slot is automatically released to maintain liquidity.
+* **Integrity:** Ensures **ACID-compliant transactions**, making oversubscription and double-booking mathematically impossible at the database layer.
+
+#### 3. RBAC & Security Architecture
+* **Identity:** Utilizes stateless **Clerk (JWT)** authentication with custom identity claims to verify user roles.
+* **Authorization:** Implements "Least Privilege" using **FastAPI dependency injection** to guard Admin, Doctor, and Patient endpoints.
+* **Privacy:** Enforces horizontal data isolation through **`/me` namespaces**, cryptographically barring users from accessing records outside their authorized scope.
+
+#### 4. Asynchronous Performance Optimization
+* **Performance:** Leverages FastAPI’s **`async/await`** for non-blocking I/O across all Supabase/PostgreSQL queries.
+* **Efficiency:** Offloads SMTP notifications and logging to **background threads**, reducing API response latency by ~300ms.
+* **Availability:** Integrates an external **heartbeat monitor** to eliminate "Cold Start" delays on cloud-hosted instances.
+  
+## API Architecture
+
+*The backend follows a RESTful design pattern, utilizing **FastAPI Dependencies** to enforce Role-Based Access Control (RBAC) and ensure atomic database transactions. All sensitive operations are shielded by identity verification guards.*
+
+| Category | Method | Endpoint | Access | Technical Logic |
+| :--- | :--- | :--- | :--- | :--- |
+| **Discovery** | `GET` | `/doctors` | Public | Specialty-based filtering with **ILike** pattern matching and Pydantic validation. |
+| **Discovery** | `GET` | `/doctors/{id}/slots` | Public | Executes the **Sliding Window** algorithm to calculate dynamic 15m availability. |
+| **Booking** | `POST` | `/bookings/create-intent` | Patient | Implements **Soft-Locking** with a 10-minute TTL to resolve high-traffic race conditions. |
+| **Booking** | `POST` | `/bookings/confirm` | Patient | Atomic transition: Deletes `PendingBooking` and inserts `Appointment` in one transaction. |
+| **Patient** | `GET` | `/appointments/me` | Patient | **Relational Join** (Appts + Doctors) with horizontal data isolation via patient ID. |
+| **Patient** | `PATCH` | `/{id}/cancel` | Patient | Updates ledger status and triggers **Asynchronous Background Tasks** for emails. |
+| **Doctor** | `GET` | `/doctor/me` | Doctor | Restricted dashboard view for real-time queue management and profile status. |
+| **Admin** | `GET` | `/admin/inquiries` | Admin | System ledger access for managing and resolving patient support tickets. |
+| **Admin** | `PATCH` | `/admin/doctors/{id}/toggle` | Admin | Global registry management allowing status overrides for practitioner visibility. |
 ---
-*Developed as a Strategic AI & Backend Portfolio Project.*
+<div align="center">
+  
+*Developed by <a href="www.linkedin.com/in/nehakvallappil">Neha K Vallappil</a> & <a href="www.linkedin.com/in/k-suchith">Suchith K</a> as a major project for a Software Development Internship*
+</div>
