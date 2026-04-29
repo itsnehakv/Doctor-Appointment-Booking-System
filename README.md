@@ -77,16 +77,16 @@ InstantMD was engineered to solve the "Double-Booking" problem in healthcare. Un
 
 *The backend follows a RESTful design pattern, utilizing **FastAPI Dependencies** to enforce Role-Based Access Control (RBAC) and ensure atomic database transactions. All sensitive operations are shielded by identity verification guards.*
 
-| Category | Method | Endpoint | Access | Technical Logic |
-| :--- | :--- | :--- | :--- | :--- |
-| **Discovery** | `GET` | `/doctors/{id}/slots` | Public | Executes the **Sliding Window** algorithm to calculate dynamic 15m availability. |
-| **Booking** | `POST` | `/bookings/create-intent` | Patient | Implements **Soft-Locking** with a 10-minute TTL to resolve high-traffic race conditions. |
-| **Booking** | `POST` | `/bookings/confirm` | Patient | Atomic transition: Deletes `PendingBooking` and inserts `Appointment` in one transaction. |
-| **Patient** | `GET` | `/appointments/me` | Patient | **Relational Join** (Appts + Doctors) with horizontal data isolation via patient ID. |
-| **Patient** | `PATCH` | `/{id}/cancel` | Patient | Updates ledger status and triggers **Asynchronous Background Tasks** for emails. |
-| **Doctor** | `GET` | `/doctor/me` | Doctor | Restricted dashboard view for real-time queue management and profile status. |
-| **Admin** | `GET` | `/admin/inquiries` | Admin | System ledger access for managing and resolving patient support tickets. |
-| **Admin** | `PATCH` | `/admin/doctors/{id}/toggle` | Admin | Global registry management allowing status overrides for practitioner visibility. |
+| Method | Endpoint | Access | Technical Logic |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/doctors/{id}/slots` | Public | Executes the **Sliding Window** algorithm to calculate dynamic 15m availability. |
+| `POST` | `/bookings/create-intent` | Patient | Implements **Soft-Locking** with a 10-minute TTL to resolve high-traffic race conditions. |
+| `POST` | `/bookings/confirm` | Patient | Atomic transition: Deletes `PendingBooking` and inserts `Appointment` in one transaction. |
+| `GET` | `/appointments/me` | Patient | **Relational Join** (Appts + Doctors) with horizontal data isolation via patient ID. |
+| `PATCH` | `/{id}/cancel` | Patient | Updates ledger status and triggers **Asynchronous Background Tasks** for emails. |
+| `GET` | `/doctor/me` | Doctor | Restricted dashboard view for real-time queue management and profile status. |
+| `GET` | `/admin/inquiries` | Admin | System ledger access for managing and resolving patient support tickets. |
+| `PATCH` | `/admin/doctors/{id}/toggle` | Admin | Global registry management allowing status overrides for practitioner visibility. |
 ---
 <div align="center">
   
