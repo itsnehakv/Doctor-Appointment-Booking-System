@@ -79,7 +79,6 @@ InstantMD was engineered to solve the "Double-Booking" problem in healthcare. Un
 
 | Category | Method | Endpoint | Access | Technical Logic |
 | :--- | :--- | :--- | :--- | :--- |
-| **Discovery** | `GET` | `/doctors` | Public | Specialty-based filtering with **ILike** pattern matching and Pydantic validation. |
 | **Discovery** | `GET` | `/doctors/{id}/slots` | Public | Executes the **Sliding Window** algorithm to calculate dynamic 15m availability. |
 | **Booking** | `POST` | `/bookings/create-intent` | Patient | Implements **Soft-Locking** with a 10-minute TTL to resolve high-traffic race conditions. |
 | **Booking** | `POST` | `/bookings/confirm` | Patient | Atomic transition: Deletes `PendingBooking` and inserts `Appointment` in one transaction. |
